@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подтверждение</title>
+</head>
+<body>
+    <h1>Подтверждение регистрации</h1>
+    <p>На ваш номер телефона был отправлен код подтверждения. Пожалуйста, введите его ниже:</p>
+    <form method="POST">
+        {% csrf_token %}
+        <p>
+            <label for="id_code">Код подтверждения:</label>
+            {{ form.code }}
+        </p>
+        <button type="submit">Подтвердить</button>
+    </form>
+</body>
+</html>

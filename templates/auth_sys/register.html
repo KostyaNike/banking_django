@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+</head>
+<body>
+    <h1>Регистрация</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <p>
+            <label for="id_first_name">Имя:</label>
+            {{ form.first_name }}
+        </p>
+        <p>
+            <label for="id_last_name">Фамилия:</label>
+            {{ form.last_name }}
+        </p>
+        <p>
+            <label for="id_phone_number">Номер телефона:</label>
+            {{ form.phone_number }}
+        </p>
+        <p>
+            <label for="id_password">Пароль:</label>
+            {{ form.password }}
+        </p>
+        <p>
+            <label for="id_confirm_password">Подтвердите пароль:</label>
+            {{ form.confirm_password }}
+        </p>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+</body>
+</html>
