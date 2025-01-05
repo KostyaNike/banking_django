@@ -1,60 +1,59 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.conf import settings
-import random
 from datetime import datetime, timedelta
+import random
 
-class UserManager(BaseUserManager):
-    def create_user(self, phone_number, password=None, first_name=None, last_name=None):
-        if not phone_number:
-            raise ValueError("Необходимо указать номер телефона")
-        user = self.model(phone_number=phone_number, first_name=first_name, last_name=last_name)
-        user.set_password(password)
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError("Email is required")
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)  # Хеширование пароля
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, phone_number, password=None):
-        user = self.create_user(phone_number, password)
-        user.is_admin = True
-        user.save(using=self._db)
-        return user
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_active", True)
 
-class User(AbstractBaseUser):
-    phone_number = models.CharField(max_length=15, unique=True)
+        return self.create_user(email, password, **extra_fields)
+
+
+class CustomUser(AbstractBaseUser):
+    email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)  # Аккаунт становится активным только после верификации
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now_add=True)
+    last_login = models.DateTimeField(null=True, blank=True)  # Добавляем last_login
 
-    USERNAME_FIELD = "phone_number"
-    REQUIRED_FIELDS = []
+    verification_code = models.CharField(max_length=6, blank=True, null=True)  # Код верификации
 
-    objects = UserManager()
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["first_name", "last_name"]
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} ({self.phone_number})"
+        return self.email
 
-    @property
-    def is_staff(self):
-        return self.is_admin
 
-class Card(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, 
-        on_delete=models.CASCADE, 
-        related_name="auth_cards"  # Уникальное имя для обратной связи
-    )
+class BankCard(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="bank_card")
     card_number = models.CharField(max_length=16, unique=True)
     cvv = models.CharField(max_length=3)
-    expiration_date = models.CharField(max_length=5)  # Формат MM/YY
-    balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    expiry_date = models.CharField(max_length=5)
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     def generate_card_details(self):
-        # Генерация номера карты (начинается с 5 и содержит 16 символов)
-        self.card_number = "5" + "".join([str(random.randint(0, 9)) for _ in range(15)])
-        # Генерация CVV
-        self.cvv = "".join([str(random.randint(0, 9)) for _ in range(3)])
-        # Установка срока действия карты (5 лет от текущей даты)
-        today = datetime.today()
-        expiration_date = today + timedelta(days=5 * 365)
-        self.expiration_date = expiration_date.strftime("%m/%y")
+        self.card_number = f"5{''.join([str(random.randint(0, 9)) for _ in range(15)])}"
+        self.cvv = f"{random.randint(100, 999)}"
+        self.expiry_date = (datetime.now() + timedelta(days=5 * 365)).strftime("%m/%y")
+
+    def __str__(self):
+        return f"Card {self.card_number} for {self.user.email}"

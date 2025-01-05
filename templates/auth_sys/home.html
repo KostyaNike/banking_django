@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная</title>
+</head>
+<body>
+    <h1>Добро пожаловать, {{ full_name }}</h1>
+    <h2>Данные вашей банковской карты:</h2>
+    <ul>
+        <li><strong>Номер карты:</strong> {{ card_number }}</li>
+        <li><strong>CVV:</strong> {{ cvv }}</li>
+        <li><strong>Срок действия:</strong> {{ expiry_date }}</li>
+        <li><strong>Баланс:</strong> {{ balance }} ₽</li>
+    </ul>
+    <a href="/auth/logout/">Выйти из аккаунта</a>
+</body>
+</html>
