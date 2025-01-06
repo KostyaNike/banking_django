@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+
+{% block title %}Про нас{% endblock %}
+
+{% block content %}
+<div class="features">
+    <h1>Добро пожаловать, {{ first_name }} {{ last_name }}</h1>
+
+    {% if is_authenticated %}
+        <h2>Информация о вашей карте</h2>
+        <p><strong>Название карты:</strong> {{ card_title }}</p>
+        <p><strong>Номер карты:</strong> {{ card_number }}</p>
+        <p><strong>CVV:</strong> {{ cvv }}</p>
+        <p><strong>Срок действия:</strong> {{ expiration_date }}</p>
+        <p><strong>Баланс:</strong> {{ balance }} ₽</p>
+    {% else %}
+        <p>Пожалуйста, <a href="{% url 'home' %}">войдите</a> или <a href="{% url 'home' %}">зарегистрируйтесь</a> чтобы увидеть карту.</p>
+    {% endif %}
+</div>
+    {% endblock %}
