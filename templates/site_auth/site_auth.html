@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block content %}
+<div class="features">
+    <h2><a href="{% url 'auth:login' %}">Войти</a> или <a href="{% url 'auth:reg' %}">зарегистрироваться</a>?</h2>
+</div>
+    {% endblock %}

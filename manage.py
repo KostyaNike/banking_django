@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
-import os
-import sys
-
+import os, sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'banking.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bank_site.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

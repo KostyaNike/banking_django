@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<div class="features">
+    <h1>Вход</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Войти</button>
+    </form>
+    <p>Еще нет аккаунта? <a href="/auth/register/">Зарегистрироваться</a></p>
+</div>
+    {% endblock %}

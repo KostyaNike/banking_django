@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block title %}Карты{% endblock %}
+
+{% block content %}
+<div class="features">
+    <h1>Добро пожаловать, {{ first_name }} {{ last_name }}</h1>
+
+    {% if is_authenticated %}
+        <h2>Ваши карты</h2>
+        {% for card in cards %}
+            <p>{{ card_title }}</p>
+        {% endfor %}
+    {% else %}
+        <p>Пожалуйста, <a href="{% url 'home' %}">войдите</a> или <a href="{% url 'home' %}">зарегистрируйтесь</a> чтобы увидеть карты.</p>
+    {% endif %}
+</div>
+    {% endblock %}

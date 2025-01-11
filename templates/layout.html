@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+</head>
+<body>
+    <aside>
+        <img scr="{% static 'home/img/logo.svg' %}" alt="Лого">
+        <span class="logo">Company</span>
+        <h3>Навигация</h3>
+        <ul>
+            <a href="{% url 'home' %}"><li><i class="fas fa-home"></i> Главная </li></a>
+            <a href="{% url 'cards' %}"><li><i class="fas fa-address-card"></i> Карты </li></a>
+            <a href="{% url 'home' %}"><li><i class="fas fa-paper-plane"></i> Новости </li></a>
+        </ul>
+        {% if is_authenticated %}
+        {% else %}
+            <p>Пожалуйста, <a href="{% url 'auth:login' %}">войдите</a> или <a href="{% url 'auth:reg' %}">зарегистрируйтесь</a>.</p>
+        {% endif %}
+    </aside>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
