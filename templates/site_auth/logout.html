@@ -4,6 +4,11 @@
 
 {% block content %}
 <div class="features">
-    <h2>Вы уверены что хотите выйти из аккаунта?</h2>
+    <h2>Вы уверены, что хотите выйти из аккаунта?</h2>
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да</button>
+    </form>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Нет</a>
 </div>
-    {% endblock %}
+{% endblock %}

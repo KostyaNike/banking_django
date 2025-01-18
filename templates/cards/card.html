@@ -6,13 +6,12 @@
 <div class="features">
     <h1>Добро пожаловать, {{ first_name }} {{ last_name }}</h1>
 
-    {% if is_authenticated %}
+    {% if request.user.is_authenticated %}
         <h2>Информация о вашей карте</h2>
-        <p><strong>Название карты:</strong> {{ card_title }}</p>
-        <p><strong>Номер карты:</strong> {{ card_number }}</p>
-        <p><strong>CVV:</strong> {{ cvv }}</p>
-        <p><strong>Срок действия:</strong> {{ expiration_date }}</p>
-        <p><strong>Баланс:</strong> {{ balance }} ₽</p>
+        <p><strong>Номер карты:</strong> {{ card.card_number }}</p>
+        <p><strong>CVV:</strong> {{ card.cvv }}</p>
+        <p><strong>Срок действия:</strong> {{ card.expiry_date }}</p>
+        <p><strong>Баланс:</strong> {{ card.balance }} ₽</p>
     {% else %}
         <p>Пожалуйста, <a href="{% url 'home' %}">войдите</a> или <a href="{% url 'home' %}">зарегистрируйтесь</a> чтобы увидеть карту.</p>
     {% endif %}

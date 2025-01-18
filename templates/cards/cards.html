@@ -6,10 +6,11 @@
 <div class="features">
     <h1>Добро пожаловать, {{ first_name }} {{ last_name }}</h1>
 
-    {% if is_authenticated %}
+    {% if request.user.is_authenticated %}
         <h2>Ваши карты</h2>
         {% for card in cards %}
-            <p>{{ card_title }}</p>
+            <p>Номер карты: {{ card.card_number }}</p>
+            <a href="{% url 'card' card.pk %}">Подробнее</a>
         {% endfor %}
     {% else %}
         <p>Пожалуйста, <a href="{% url 'home' %}">войдите</a> или <a href="{% url 'home' %}">зарегистрируйтесь</a> чтобы увидеть карты.</p>

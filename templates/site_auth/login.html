@@ -7,7 +7,25 @@
     <h1>Вход</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <p>
+            <label for="id_username">Username</label>
+            <input type="username" name="username" required="" id="id_username">
+            
+            
+        </p>
+        <p>
+            <label for="id_email">Email:</label>
+            <input type="email" name="email" autofocus="" maxlength="320" required="" id="id_email">
+            
+            
+            
+        </p>
+        <p>
+            <label for="id_password">Password:</label>
+            <input type="password" name="password" required="" id="id_password">
+            
+            
+        </p>
         <button type="submit">Войти</button>
     </form>
     <p>Еще нет аккаунта? <a href="/auth/register/">Зарегистрироваться</a></p>

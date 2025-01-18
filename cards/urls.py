@@ -3,5 +3,5 @@ from cards import views
 
 urlpatterns = [
     path('', views.cards, name='cards'),
-    path('card/', views.card, name='card'),
+    path('<int:pk>/', views.card, name='card'),
 ]

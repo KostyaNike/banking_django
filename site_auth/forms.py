@@ -1,25 +1,41 @@
-from database.models import CustomUser
 from django import forms
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from .models import CustomUser
 
-class RegistrationForm(forms.ModelForm):
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField()  # Убедитесь, что email правильно обрабатывается
+
+    class Meta(UserCreationForm.Meta):
+        model = CustomUser
+        fields = UserCreationForm.Meta.fields + ("email",)  # Добавление email
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+        return user
+
+
+class LoginForm(AuthenticationForm):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'autofocus': True}))
     password = forms.CharField(widget=forms.PasswordInput)
-    password_confirm = forms.CharField(widget=forms.PasswordInput)
-
-    class Meta:
-        model = CustomUser  # Используем CustomUser вместо User
-        fields = ['first_name', 'last_name', 'email', 'password']
 
     def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        password_confirm = cleaned_data.get("password_confirm")
-        if password != password_confirm:
-            raise forms.ValidationError("Пароли не совпадают!")
-        return cleaned_data
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
 
-class LoginForm(forms.Form):
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
+        # Проверка пользователя по email
+        try:
+            user = CustomUser.objects.get(email=email)
+        except CustomUser.DoesNotExist:
+            raise forms.ValidationError("Пользователь с таким email не найден.")
+
+        # Проверка пароля
+        if not user.check_password(password):
+            raise forms.ValidationError("Неверный пароль.")
+
+        self.cleaned_data['user'] = user
+        return self.cleaned_data
 
 class VerificationForm(forms.Form):
     code = forms.CharField(max_length=6)
