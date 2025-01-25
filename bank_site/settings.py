@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'database',
     'home',
     'site_auth',
+    'money_trans',
 ]
 
 MIDDLEWARE = [

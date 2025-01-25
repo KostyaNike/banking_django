@@ -1,19 +1,17 @@
 {% extends 'layout.html' %}
 
-{% block title %}Карты{% endblock %}
+{% block title %}Карти{% endblock %}
 
 {% block content %}
 <div class="features">
-    <h1>Добро пожаловать, {{ first_name }} {{ last_name }}</h1>
-
     {% if request.user.is_authenticated %}
-        <h2>Ваши карты</h2>
+        <h2>Ваші картки:</h2>
         {% for card in cards %}
-            <p>Номер карты: {{ card.card_number }}</p>
-            <a href="{% url 'card' card.pk %}">Подробнее</a>
+            <p>Номер карти: {{ card.card_number }}</p>
+            <a href="{% url 'card' card.pk %}">Більше</a>
         {% endfor %}
     {% else %}
-        <p>Пожалуйста, <a href="{% url 'home' %}">войдите</a> или <a href="{% url 'home' %}">зарегистрируйтесь</a> чтобы увидеть карты.</p>
+    <p>Будь ласка, <a href="{% url 'home' %}">увійдіть</a> або <a href="{% url 'home' %}">зареєструйтесь</a>.</p>
     {% endif %}
 </div>
     {% endblock %}

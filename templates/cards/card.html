@@ -1,19 +1,83 @@
 {% extends 'layout.html' %}
+{% load static %}
 
-{% block title %}{{ card_title }}{% endblock %}
+{% block title %}Карта {{ card.card_number }}{% endblock %}
 
 {% block content %}
-<div class="features">
-    <h1>Добро пожаловать, {{ first_name }} {{ last_name }}</h1>
+<link rel="stylesheet" href="{% static 'cards/css/style_card.css' %}">
 
+<div class="features">
     {% if request.user.is_authenticated %}
-        <h2>Информация о вашей карте</h2>
-        <p><strong>Номер карты:</strong> {{ card.card_number }}</p>
-        <p><strong>CVV:</strong> {{ card.cvv }}</p>
-        <p><strong>Срок действия:</strong> {{ card.expiry_date }}</p>
-        <p><strong>Баланс:</strong> {{ card.balance }} ₽</p>
+        <h1>Ваша карта:</h1>
+        <div class="card-container">
+            <div class="card">
+                <!-- Передняя сторона -->
+                <div class="card-front">
+                    <div class="card-number">{{ card.card_number }}</div>
+                    <div class="card-expiry">Термін: {{ card.expiry_date }}</div>
+                </div>
+                <!-- Задняя сторона -->
+                <div class="card-back">
+                    <div class="card-number">{{ card.card_number }}</div>
+                    <div class="card-cvv">CVV: {{ card.cvv }}</div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="tabs">
+            <button class="tab-button active" data-tab="transactions">Транзакції</button>
+            <button class="tab-button" data-tab="services">Послуги</button>
+            <button class="tab-button" data-tab="rates">Курс</button>
+        </div>
+
+        <div class="tab-content" id="transactions" style="display: block;">
+            <h2>Транзакції</h2>
+            {% if transactions %}
+                <ul>
+                    {% for transaction in transactions %}
+                        <li>
+                            <strong>Получатель:</strong> {{ transaction.recipient.username }}<br>
+                            <strong>Сумма:</strong> {{ transaction.amount }} ₽<br>
+                            <strong>Дата:</strong> {{ transaction.date }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Нет транзакций для этой карты.</p>
+            {% endif %}
+        </div>
+
+        <div class="tab-content" id="services" style="display: none;">
+            <h2>Послуги</h2>
+            <p>Скоро здесь появятся дополнительные услуги.</p>
+        </div>
+
+        <div class="tab-content" id="rates" style="display: none;">
+            <h2>Курс</h2>
+            <p>Информация о курсах валют будет добавлена позже.</p>
+        </div>
+        
     {% else %}
-        <p>Пожалуйста, <a href="{% url 'home' %}">войдите</a> или <a href="{% url 'home' %}">зарегистрируйтесь</a> чтобы увидеть карту.</p>
+        <h1>Ласкаво просимо</h1>
+        <p>Будь ласка, <a href="{% url 'home' %}">увійдіть</a> або <a href="{% url 'home' %}">зареєструйтесь</a>.</p>
     {% endif %}
 </div>
-    {% endblock %}
+
+<script>
+    const tabs = document.querySelectorAll(".tab-button");
+    const contents = document.querySelectorAll(".tab-content");
+
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            tabs.forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
+
+            contents.forEach(content => {
+                content.style.display = content.id === tab.dataset.tab ? "block" : "none";
+            });
+        });
+    });
+</script>
+{% endblock %}

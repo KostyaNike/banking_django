@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from site_auth.models import BankCard
+from money_trans.models import Transaction  # Подключаем модель транзакций
 
 def cards(request):
     # Получение всех карт, связанных с текущим пользователем
@@ -12,8 +13,15 @@ def cards(request):
 def card(request, pk):
     # Получение конкретной карты пользователя
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
-    return render(request, "cards/card.html", {"card": card})
-
+    
+    # Получение транзакций, связанных с этой картой
+    transactions = Transaction.objects.filter(card=card).order_by("-date")
+    
+    context = {
+        "card": card,
+        "transactions": transactions
+    }
+    return render(request, "cards/card.html", context)
 
 
 
