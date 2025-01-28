@@ -8,19 +8,26 @@
 
 <div class="features">
     {% if request.user.is_authenticated %}
-        <h1>Ваша карта:</h1>
-        <div class="card-container">
-            <div class="card">
-                <!-- Передняя сторона -->
-                <div class="card-front">
-                    <div class="card-number">{{ card.card_number }}</div>
-                    <div class="card-expiry">Термін: {{ card.expiry_date }}</div>
+        <h1>Ваша картка:</h1>
+        <div class="card-wrapper">
+            <a href="{% url 'cards' %}" class="button-cards"><i class="fas fa-address-card"></i> Інші картки</a>
+            <div class="card-container">
+                <div class="card" id="card">
+                    <!-- Передняя сторона -->
+                    <div class="card-front">
+                        <div class="card-number">{{ card.card_number }}</div>
+                        <div class="card-expiry">Термін: {{ card.expiry_date }}</div>
+                    </div>
+                    <!-- Задняя сторона -->
+                    <div class="card-back">
+                        <div class="card-number">{{ card.card_number }}</div>
+                        <div class="card-cvv">CVV: {{ card.cvv }}</div>
+                    </div>
                 </div>
-                <!-- Задняя сторона -->
-                <div class="card-back">
-                    <div class="card-number">{{ card.card_number }}</div>
-                    <div class="card-cvv">CVV: {{ card.cvv }}</div>
-                </div>
+                <button class="flip-button" id="flipButton" onclick="toggleCVV()">
+                    <span class="arrow-container">&#x21bb;</span>
+                    <span class="button-text" id="flipButtonText">Показати CVV</span>
+                </button>
             </div>
         </div>
 
@@ -50,8 +57,15 @@
         </div>
 
         <div class="tab-content" id="services" style="display: none;">
-            <h2>Послуги</h2>
-            <p>Скоро здесь появятся дополнительные услуги.</p>
+            <div class="services-buttons">
+                <a href="#" class="service-button" style="--color-start: #6a1b9a; --color-end: #ab47bc;">Поповнення мобільного</a>
+                <a href="#" class="service-button" style="--color-start: #1565c0; --color-end: #42a5f5;">Страхування</a>
+                <a href="#" class="service-button" style="--color-start: #2e7d32; --color-end: #66bb6a;">Банка накопичування</a>
+                <a href="#" class="service-button" style="--color-start: #ef6c00; --color-end: #ffb74d;">Авто</a>
+                <a href="#" class="service-button" style="--color-start: #c62828; --color-end: #ef5350;">Кредит</a>
+                <a href="#" class="service-button" style="--color-start: #6d4c41; --color-end: #a1887f;">Поїзд</a>
+                <a href="#" class="service-button" style="--color-start: #424242; --color-end: #757575;">Закрити картку</a>
+            </div>
         </div>
 
         <div class="tab-content" id="rates" style="display: none;">
@@ -66,18 +80,43 @@
 </div>
 
 <script>
-    const tabs = document.querySelectorAll(".tab-button");
-    const contents = document.querySelectorAll(".tab-content");
+    // Получаем все табы и их контент
+    const tabs = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
 
+    // Добавляем обработчик события для каждой кнопки таба
     tabs.forEach(tab => {
-        tab.addEventListener("click", () => {
-            tabs.forEach(t => t.classList.remove("active"));
-            tab.classList.add("active");
-
-            contents.forEach(content => {
-                content.style.display = content.id === tab.dataset.tab ? "block" : "none";
+        tab.addEventListener('click', () => {
+            // Скрываем все табы
+            tabContents.forEach(content => {
+                content.style.display = 'none';
             });
+
+            // Убираем класс активного таба
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Показываем нужный таб
+            const targetTabContent = document.getElementById(tab.dataset.tab);
+            targetTabContent.style.display = 'block';
+
+            // Добавляем класс активного таба
+            tab.classList.add('active');
         });
     });
+
+    let isCVVVisible = false;
+    function toggleCVV() {
+        const flipButtonText = document.getElementById("flipButtonText");
+        // Переключаем текст кнопки в зависимости от состояния карточки
+        if (isCVVVisible) {
+            flipButtonText.textContent = "Показати CVV"; // Меняем на "Показати CVV"
+        } else {
+            flipButtonText.textContent = "Приховати CVV"; // Меняем на "Приховати CVV"
+        }
+        // Переключаем состояние видимости CVV
+        isCVVVisible = !isCVVVisible;
+    }
 </script>
 {% endblock %}

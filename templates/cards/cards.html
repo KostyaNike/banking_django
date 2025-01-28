@@ -7,7 +7,7 @@
     {% if request.user.is_authenticated %}
         <h2>Ваші картки:</h2>
         {% for card in cards %}
-            <p>Номер карти: {{ card.card_number }}</p>
+            <p>Номер картки: {{ card.card_number }}</p>
             <a href="{% url 'card' card.pk %}">Більше</a>
         {% endfor %}
     {% else %}
