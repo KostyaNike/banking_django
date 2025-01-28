@@ -106,15 +106,28 @@
         });
     });
 
+    // Получаем элементы для переворота карточки
+    const flipButton = document.getElementById('flipButton');
+    const card = document.getElementById('card');
+
+    // Добавляем обработчик события для кнопки переворота
+    flipButton.addEventListener('click', () => {
+        card.classList.toggle('flipped'); // Переворачиваем карточку
+    });
+
     let isCVVVisible = false;
+
+    // Функция для переключения текста на кнопке
     function toggleCVV() {
         const flipButtonText = document.getElementById("flipButtonText");
+
         // Переключаем текст кнопки в зависимости от состояния карточки
         if (isCVVVisible) {
             flipButtonText.textContent = "Показати CVV"; // Меняем на "Показати CVV"
         } else {
             flipButtonText.textContent = "Приховати CVV"; // Меняем на "Приховати CVV"
         }
+
         // Переключаем состояние видимости CVV
         isCVVVisible = !isCVVVisible;
     }
