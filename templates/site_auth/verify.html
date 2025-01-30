@@ -1,15 +1,15 @@
 {% extends 'layout.html' %}
 
-{% block title %}Вход{% endblock %}
+{% block title %}Верифікація{% endblock %}
 
 {% block content %}
 <div class="features">
-    <h1>Подтверждение аккаунта</h1>
+    <h1>Введіть код нижче який вам прийшов на ваш email:</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Подтвердить</button>
+        <button type="submit">Підтвердити</button>
     </form>
-    <p>Не получили код? Попробуйте зарегистрироваться заново.</p>
+    <p>Не отримали пароль? Попробуйте зареєструватися знову.</p>
 </div>
     {% endblock %}

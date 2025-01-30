@@ -7,8 +7,8 @@
     <h2>Вы уверены, что хотите выйти из аккаунта?</h2>
     <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Да</button>
+        <button type="submit" class="btn btn-danger">Так</button>
     </form>
-    <a href="{% url 'home' %}" class="btn btn-secondary">Нет</a>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Ні</a>
 </div>
 {% endblock %}

@@ -8,26 +8,19 @@
     <form method="post">
         {% csrf_token %}
         <p>
-            <label for="id_username">Username</label>
+            <label for="id_username">Ім'я та призвіще:</label>
             <input type="username" name="username" required="" id="id_username">
-            
-            
         </p>
         <p>
             <label for="id_email">Email:</label>
             <input type="email" name="email" autofocus="" maxlength="320" required="" id="id_email">
-            
-            
-            
         </p>
         <p>
-            <label for="id_password">Password:</label>
+            <label for="id_password">Пароль:</label>
             <input type="password" name="password" required="" id="id_password">
-            
-            
         </p>
-        <button type="submit">Войти</button>
+        <button type="submit">Увійти</button>
     </form>
-    <p>Еще нет аккаунта? <a href="/auth/register/">Зарегистрироваться</a></p>
+    <p>Ще не створили рахунок? <a href="/auth/register/">Зареєструватися</a></p>
 </div>
     {% endblock %}
