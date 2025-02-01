@@ -1,7 +1,16 @@
 /* Новый стиль для блока пополнения мобильного телефона */
 
+.content-wrapper {
+    display: flex;
+    justify-content: center; /* Горизонтальное центрирование */
+    align-items: center; /* Вертикальное центрирование */
+    min-height: 100vh; /* Занимает всю высоту экрана */
+}
+
+
 /* Основной контейнер для блока пополнения */
 .mobile-recharge-container {
+    top: 90px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,6 +26,7 @@
     margin-left: auto;  /* Для выравнивания блока по центру */
     margin-right: auto; /* Для выравнивания блока по центру */
     transition: transform 0.3s ease;
+    bottom: 0px;
 }
 
 .mobile-recharge-container:hover {
@@ -134,4 +144,22 @@
 /* Убираем фокус с полей ввода при клике */
 .mobile-input-field:focus-visible {
     outline: none;
+}
+
+.back-button {
+    position: fixed;
+    top: 90px; /* Сдвигаем кнопку немного вниз */
+    left: 400px; /* Сдвигаем кнопку немного вправо */
+    background: none; /* Без фона */
+    color: #717171; /* Темно-серый цвет */
+    font-size: 20px; /* Увеличен размер текста */
+    font-weight: bold; /* Жирный стиль текста */
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: #007bff; /* Цвет при наведении */
 }

@@ -1,0 +1,141 @@
+/* Центрирование блока */
+.outer-container {
+    display: flex;
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: center; /* Центрирование по вертикали */
+    min-height: 100vh; /* Занимает всю высоту экрана */
+}
+
+/* Контейнер для страницы удаления карточки */
+.delete-card-container {
+    background-color: #ffffff; /* Белый фон */
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 550px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+/* Заголовок и описание */
+.delete-card-container h2 {
+    color: #333333; /* Темный цвет для заголовка */
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+}
+
+.delete-card-container p {
+    color: #666666; /* Светло-серый цвет для текста */
+    font-size: 16px; /* Уменьшенный размер текста */
+    margin-bottom: 30px;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.5;
+}
+
+/* Контейнер для кнопок */
+/* Контейнер для кнопок */
+.button-container {
+    display: flex;
+    margin-left: -160px; /* Сдвигаем кнопки влево */
+    gap: 5px; /* Промежуток в 20px между кнопками */
+    width: 100%;
+}
+
+/* Кнопки */
+.insurance-button {
+    display: inline-block;
+    padding: 10px 15px; /* Уменьшение размера кнопок */
+    font-size: 16px; /* Меньший размер текста */
+    text-decoration: none;
+    border-radius: 8px;
+    color: white;
+    width: 48%; /* Кнопки занимают 48% ширины контейнера */
+    text-align: center;
+    border: none;
+    background-color: #008CBA; /* Голубой цвет фона */
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Кнопка "Удалить" */
+.insurance-button.delete {
+    background-color: #f44336; /* Красный цвет */
+}
+
+/* Кнопка "Отмена" */
+.insurance-button.cancel {
+    background-color: #555555; /* Темно-серый цвет */
+}
+
+/* Эффект при наведении на кнопки */
+.insurance-button:hover {
+    transform: scale(1.05); /* Легкое увеличение кнопки */
+    background-color: #333333; /* Изменение фона при наведении */
+}
+
+/* Стили для кнопки "Назад" */
+.back-button {
+    position: fixed;
+    top: 90px; /* Сдвигаем кнопку немного вниз */
+    left: 400px; /* Сдвигаем кнопку немного вправо */
+    background: none; /* Без фона */
+    color: #717171; /* Темно-серый цвет */
+    font-size: 20px; /* Увеличен размер текста */
+    font-weight: bold; /* Жирный стиль текста */
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: #007bff; /* Цвет при наведении */
+}
+
+/* Стили для сообщений */
+.messages {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    animation: fadeInOut 3s ease-in-out;
+}
+
+/* Анимация для сообщения */
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 480px) {
+    .delete-card-container {
+        padding: 20px;
+        margin: 50px 20px;
+        max-width: 90%;
+    }
+
+    .insurance-button {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+}

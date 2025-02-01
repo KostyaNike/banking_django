@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Удаление карточки{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cards/css/close_card.css' %}">
+
+<a href="javascript:history.back()" class="back-button">Назад</a>
+
+<div class="outer-container">
+    <div class="content-wrapper">
+        <div class="delete-card-container">
+            <h2>Вы уверены, что хотите удалить эту карточку?</h2>
+            <p>После удаления все данные карточки будут потеряны. Пожалуйста, подтвердите, если хотите продолжить.</p>
+
+            <form method="POST" action="{% url 'cards:close_card' pk=card.pk %}">
+                {% csrf_token %}
+                <div class="button-container">
+                    <button type="submit" class="insurance-button delete">Удалить</button>
+                    <a href="javascript:history.back()" class="insurance-button cancel">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

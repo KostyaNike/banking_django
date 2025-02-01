@@ -75,3 +75,11 @@ def transfer(request, pk):
         else:
             messages.error(request, 'Нельзя перевести деньги самому себе.')
     return render(request, 'cards/transfer.html', {'card': card})
+
+def delete_card(request, pk):
+    card = get_object_or_404(BankCard, pk=pk, user=request.user)
+    if request.method == 'POST':
+        card.delete()
+        messages.success(request, "Картка успішно відалена.")
+        return redirect('cards:cards')  # Перенаправление на список карт
+    return render(request, 'cards/close_card.html', {'card': card})

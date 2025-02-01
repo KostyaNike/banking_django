@@ -8,10 +8,10 @@
         <h2>Ваші картки:</h2>
         {% for card in cards %}
             <p>Номер картки: {{ card.card_number }}</p>
-            <a href="{% url 'card' card.pk %}">Більше</a>
+            <a href="{% url 'cards:card' pk=card.pk %}">Просмотреть карточку</a>
         {% endfor %}
     {% else %}
-    <p>Будь ласка, <a href="{% url 'home' %}">увійдіть</a> або <a href="{% url 'home' %}">зареєструйтесь</a>.</p>
+    <p>Будь ласка, <a href="/auth/login/">увійдіть</a> або <a href="/auth/register/">зареєструйтесь</a>.</p>
     {% endif %}
 </div>
     {% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %} Карта {{ card.card_number }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cards/css/insurance.css' %}">
+
+<!-- Кнопка "Назад" -->
+<a href="javascript:history.back()" class="back-button">Назад</a>
+
+<div class="content-wrapper">
+    <div class="insurance-container">
+        <h2>Виберіть тип страхування</h2>
+        <div class="insurance-options">
+            <a href="#" class="insurance-button">Страхування здоров'я</a>
+            <div class="divider"></div>
+            <a href="#" class="insurance-button">Туристичне страхування</a>
+        </div>
+    </div>
+</div>
+
+<div class="footer-text">
+    *Страхування надається лише повнолітнім користувачам банку.
+</div>
+
+{% endblock %}
