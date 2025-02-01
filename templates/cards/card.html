@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% load static %}
 
-{% block title %}Карта {{ card.card_number }}{% endblock %}
+{% block title %} Карта {{ card.card_number }}{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'cards/css/style_card.css' %}">
@@ -44,7 +44,7 @@
                         <!-- Заменили <button> на <a> -->
                         <a href="#" class="replenish-button">Поповнити рахунок +</a>
                         <div class="button-divider"></div>
-                        <a href="#" class="send-button">Відправити</a>
+                        <a href="transfer" class="send-button">Відправити</a>
                     </div>
                 </div>
             </div>
