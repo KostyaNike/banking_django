@@ -5,6 +5,7 @@
     justify-content: center; /* Горизонтальное центрирование */
     align-items: center; /* Вертикальное центрирование */
     min-height: 100vh; /* Занимает всю высоту экрана */
+    margin-left: 250px;
 }
 
 

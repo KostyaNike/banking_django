@@ -502,3 +502,95 @@
 .replenish-button, .send-button {
     cursor: pointer; /* Устанавливаем курсор как "указатель", чтобы показать, что это кликабельный элемент */
 }
+
+
+/* Заголовок блока */
+.transaction-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Список транзакций */
+.transaction-list {
+    list-style: none; /* Убираем стандартные маркеры списка */
+    padding: 0;
+    margin: 0;
+}
+
+/* Элементы списка транзакций */
+.transaction-item {
+    background-color: #fff; /* Белый фон для каждого элемента */
+    margin-bottom: 20px; /* Отступ снизу */
+    padding: 20px;
+    border-radius: 8px; /* Округлые углы */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень для отделения */
+}
+
+/* Заголовок транзакции */
+.transaction-header {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* Имя получателя */
+.recipient-name {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Детали транзакции */
+.transaction-details {
+    display: flex;
+    flex-wrap: wrap; /* Позволяет переносить строки */
+    gap: 15px;
+    font-size: 16px;
+    color: #777;
+}
+
+/* Сумма */
+.transaction-amount,
+.transaction-date {
+    font-weight: bold;
+}
+
+/* Значения суммы и даты */
+.amount-value,
+.transaction-date-value {
+    color: #2ecc71;
+}
+
+/* Сообщение, если транзакции отсутствуют */
+.no-transactions-message {
+    text-align: center;
+    font-size: 18px;
+    color: #e74c3c;
+    margin-top: 30px;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .transaction-tab-content {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .transaction-title {
+        font-size: 24px;
+    }
+
+    .transaction-item {
+        padding: 15px;
+    }
+
+    .transaction-details {
+        font-size: 14px;
+    }
+
+    .transaction-header {
+        font-size: 16px;
+    }
+}

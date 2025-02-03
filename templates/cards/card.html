@@ -59,21 +59,24 @@
         </div>
 
         <div class="tab-content" id="transactions" style="display: block;">
-            <h2>Транзакції</h2>
             {% if transactions %}
-                <ul>
+                <ul class="transaction-list">
                     {% for transaction in transactions %}
-                        <li>
-                            <strong>Отримувач:</strong> {{ transaction.recipient.username }}<br>
-                            <strong>Сума:</strong> {{ transaction.amount }} ₴<br>
-                            <strong>Дата:</strong> {{ transaction.date }}
+                        <li class="transaction-item">
+                            <div class="transaction-header">
+                                <strong class="transaction-recipient">Отримувач:</strong> <span class="recipient-name">{{ transaction.recipient.username }}</span>
+                            </div>
+                            <div class="transaction-details">
+                                <strong class="transaction-amount">Сума:</strong> <span class="amount-value">{{ transaction.amount }} ₴</span>
+                                <strong class="transaction-date">Дата:</strong> <span class="transaction-date-value">{{ transaction.date }}</span>
+                            </div>
                         </li>
                     {% endfor %}
                 </ul>
             {% else %}
-                <p>Транзакції відсутні.</p>
+                <p class="no-transactions-message">Транзакції відсутні.</p>
             {% endif %}
-        </div>
+        </div>   
 
         <div class="tab-content" id="services" style="display: none;">
             <div class="services-buttons">
