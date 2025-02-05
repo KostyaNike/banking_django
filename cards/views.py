@@ -3,6 +3,9 @@ from site_auth.models import BankCard, CustomUser
 from money_trans.models import Transaction
 from django.contrib import messages
 from decimal import Decimal, InvalidOperation  # Подключаем модель транзакций
+import feedparser
+from .gtfs_processor import get_routes
+import re
 
 def cards(request):
     # Получение всех карт, связанных с текущим пользователем
@@ -83,3 +86,121 @@ def delete_card(request, pk):
         messages.success(request, "Картка успішно відалена.")
         return redirect('cards:cards')  # Перенаправление на список карт
     return render(request, 'cards/close_card.html', {'card': card})
+
+def get_train_routes_gtfs(departure, arrival, date):
+    # Пример URL для GTFS-данных (замените на актуальный URL для нужной страны)
+    gtfs_feed_url = "https://gtfs.org/"  # Укажите настоящий URL GTFS
+
+    # Загружаем GTFS feed
+    feed = feedparser.parse(gtfs_feed_url)
+    routes = []
+
+    for entry in feed.entries:
+        # Фильтруем по отправлению и прибытию
+        if departure.lower() in entry.title.lower() and arrival.lower() in entry.title.lower():
+            routes.append({
+                "train_number": entry.title,
+                "departure_time": entry.published,
+                "arrival_time": entry.updated,
+                "duration": entry.duration,
+                "link": entry.link
+            })
+
+    return routes
+
+def search_trains(request, pk):
+    # Получаем карту по pk
+    card = get_object_or_404(BankCard, pk=pk, user=request.user)
+    
+    routes = None
+    if request.method == "POST":
+        departure = request.POST.get("departure")
+        arrival = request.POST.get("arrival")
+        date = request.POST.get("date")
+        routes = get_routes(departure, arrival, date)
+
+    return render(request, "cards/train.html", {"routes": routes, 'card': card})
+
+def auto_parking(request, pk):
+    card = get_object_or_404(BankCard, pk=pk, user=request.user)
+
+    if request.method == 'POST':
+        city = request.POST.get('city')
+        car_number = request.POST.get('car_number')
+
+        # Регулярное выражение для украинского номера
+        car_number_pattern = r'^[A-Z]{2}[0-9]{4}[A-Z]{2}$'
+
+        # Проверка формата номера
+        if not re.match(car_number_pattern, car_number):
+            error_message = 'Номер автомобиля должен быть в формате XX0000XX (например, AB1234CD).'
+            return render(request, 'cards/auto_parking.html', {'card': card, 'error_message': error_message})
+
+        # Стоимость парковки
+        parking_fee = Decimal('150.00')
+
+        # Проверка баланса на карте
+        if card.balance >= parking_fee:
+            try:
+                # Ищем пользователя "Автомобільна служба" (если его нет, создаём)
+                auto_service_user, created = CustomUser.objects.get_or_create(
+                    username="auto_service",
+                    defaults={"first_name": "Автомобільна", "last_name": "служба"}
+                )
+
+                # Создаём транзакцию
+                transaction = Transaction.objects.create(
+                    card=card,
+                    recipient=auto_service_user,  # Передаём объект пользователя
+                    amount=parking_fee,
+                    transaction_type='auto_parking'
+                )
+
+                # Обновляем баланс карты
+                card.balance -= parking_fee
+                card.save()
+
+                success_message = 'Оплата прошла успешно!'
+                return render(request, 'cards/auto_parking.html', {'card': card, 'success_message': success_message})
+
+            except Exception as e:
+                error_message = f'Ошибка транзакции: {str(e)}'
+                return render(request, 'cards/auto_parking.html', {'card': card, 'error_message': error_message})
+
+        else:
+            error_message = 'Недостаточно средств на карте.'
+            return render(request, 'cards/auto_parking.html', {'card': card, 'error_message': error_message})
+
+    return render(request, 'cards/auto_parking.html', {'card': card})
+
+def check_auto_fines(request, pk):
+    message = None
+
+    if request.method == 'POST':
+        car_number = request.POST.get('car_number')
+
+        # Регулярное выражение для украинских номеров
+        car_number_pattern = r'^[A-Z]{2}[0-9]{4}[A-Z]{2}$'
+
+        if not re.match(car_number_pattern, car_number):
+            message = "Номер автомобіля має бути у форматі XX0000XX (наприклад, AB1234CD)."
+        else:
+            message = "Жодний штраф не зареєстровано на це авто."
+
+    return render(request, 'cards/auto_fine_parking.html', {'message': message})
+
+def check_auto_fines_pdr(request, pk):
+    message = None
+
+    if request.method == 'POST':
+        car_number = request.POST.get('car_number')
+
+        # Регулярное выражение для украинских номеров
+        car_number_pattern = r'^[A-Z]{2}[0-9]{4}[A-Z]{2}$'
+
+        if not re.match(car_number_pattern, car_number):
+            message = "Номер автомобіля має бути у форматі XX0000XX (наприклад, AB1234CD)."
+        else:
+            message = "Жодний штраф не зареєстровано на це авто."
+
+    return render(request, 'cards/auto_pdr.html', {'message': message})

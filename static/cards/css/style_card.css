@@ -183,12 +183,12 @@
 }
 
 .tab-button.active {
-    background-color: #7b2ff7;
+    background-color: #5a437f;
     color: white;
 }
 
 .tab-button:hover {
-    background-color: #9e1fef;
+    background-color: #75359c;
     color: white;
 }
 
@@ -522,7 +522,7 @@
 
 /* Элементы списка транзакций */
 .transaction-item {
-    background-color: #fff; /* Белый фон для каждого элемента */
+    background-color: #f5f6f3; /* Белый фон для каждого элемента */
     margin-bottom: 20px; /* Отступ снизу */
     padding: 20px;
     border-radius: 8px; /* Округлые углы */

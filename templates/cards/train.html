@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Поиск маршрутов{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cards/css/train.css' %}">
+    <!-- Модальное окно с формой поиска -->
+    <div class="modal">
+        <div class="modal-content">
+            <h1>Поиск маршрутов</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <label for="departure">Место отправления:</label>
+                <input type="text" id="departure" name="departure" required><br><br>
+
+                <label for="arrival">Место прибытия:</label>
+                <input type="text" id="arrival" name="arrival" required><br><br>
+
+                <label for="date">Дата отправления:</label>
+                <input type="date" id="date" name="date" required><br><br>
+
+                <button type="submit">Поиск</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Список маршрутов (если они найдены) -->
+    {% if routes %}
+        <h2>Доступные маршруты</h2>
+        <ul class="routes-list">
+            {% for route in routes %}
+                <li class="route-item">
+                    <div class="route">
+                        <h3>{{ route.train_number }}</h3>
+                        <p>Время отправления: {{ route.departure_time }}</p>
+                        <p>Время прибытия: {{ route.arrival_time }}</p>
+                        <p>Продолжительность: {{ route.duration }}</p>
+                        <a href="{{ route.link }}" target="_blank">Купить билет</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Жодний маршрут в цьому напрямленні.</p>
+    {% endif %}
+{% endblock %}

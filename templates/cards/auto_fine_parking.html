@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Перевірка штрафів{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cards/css/auto_fine_parking.css' %}">
+
+<a href="javascript:history.back()" class="back-button">← Назад</a>
+
+<div class="fine-check-container">
+    <h1 class="fine-check-title">Перевірка штрафів</h1>
+
+    <form method="POST" class="fine-check-form">
+        {% csrf_token %}
+        
+        <label for="car_number" class="fine-check-label">Номер автомобіля:</label>
+        <input type="text" id="car_number" name="car_number" class="fine-check-input"
+            pattern="[A-Z]{2}[0-9]{4}[A-Z]{2}" title="Формат: XX0000XX (наприклад, AB1234CD)"
+            placeholder="Введіть номер авто" required>
+
+        <button type="submit" class="fine-check-button">Пошук</button>
+    </form>
+
+    {% if message %}
+        <p class="fine-check-message">{{ message }}</p>
+    {% endif %}
+</div>
+
+{% endblock %}

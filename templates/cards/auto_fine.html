@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %} Карта {{ card.card_number }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cards/css/auto_fine.css' %}">
+
+<!-- Кнопка "Назад" -->
+<a href="javascript:history.back()" class="back-button">← Назад</a>
+
+<div class="content-wrapper">
+    <div class="insurance-container">
+        <h2>Виберіть тип страхування</h2>
+        <div class="insurance-options">
+            <a href="auto_pdr" class="insurance-button">Штрафи за порушення ПДР</a>
+            <div class="divider"></div>
+            <a href="auto_fine_parking" class="insurance-button">Штрафи за паркування</a>
+        </div>
+    </div>
+</div>
+
+<div class="footer-text">
+    *Сплачування штрафіф можливе лиже повнолітнім (18+).
+</div>
+
+{% endblock %}

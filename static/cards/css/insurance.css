@@ -18,7 +18,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-left: -30px; /* Смещаем блок немного влево */
+    margin-left: 275px; /* Смещаем блок немного влево */
 }
 
 h2 {

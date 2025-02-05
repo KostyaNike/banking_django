@@ -1,0 +1,95 @@
+/* Обновляем контейнер для блока */
+.content-wrapper {
+    display: flex;
+    justify-content: center; /* Горизонтальное центрирование */
+    align-items: center; /* Вертикальное центрирование */
+    min-height: 100vh; /* Занимает всю высоту экрана */
+}
+
+/* Стили для .insurance-container */
+.insurance-container {
+    background-color: #444444; /* Темнее серый фон */
+    border: 2px solid white;
+    border-radius: 15px;
+    padding: 30px; /* Увеличены отступы */
+    max-width: 400px; /* Увеличена максимальная ширина */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 275px; /* Смещаем блок немного влево */
+}
+
+h2 {
+    color: white;
+    font-size: 24px; /* Увеличен размер шрифта */
+    white-space: nowrap; /* Запрещаем перенос текста */
+}
+
+.insurance-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.insurance-button {
+    display: block;
+    width: 100%;
+    padding: 15px; /* Увеличены отступы */
+    margin: 12px 0;
+    background: linear-gradient(45deg, rgb(128, 0, 0), rgb(238, 144, 144));
+    color: white;
+    font-size: 18px; /* Увеличен размер шрифта */
+    text-decoration: none;
+    border-radius: 20px;
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+    white-space: nowrap; /* Запрещаем перенос текста */
+}
+
+.insurance-button:hover {
+    transform: scale(1.05);
+    color: white; /* Текст не меняет цвет на синий */
+}
+
+.insurance-button:focus, .insurance-button:hover {
+    outline: none; /* Убираем синий цвет при фокусе или наведении */
+}
+
+.divider {
+    width: 80%;
+    height: 1px;
+    background-color: lightgray;
+    margin: 15px 0;
+}
+
+/* Стили для текста внизу экрана */
+.footer-text {
+    position: fixed;
+    bottom: 20px; /* Сдвигаем текст немного вверх от нижнего края */
+    left: 59%; /* Центрируем текст по горизонтали */
+    transform: translateX(-50%); /* Дополнительное центрирование по горизонтали */
+    color: #535353; /* Темно-серый цвет текста */
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Стили для кнопки "Назад" */
+.back-button {
+    position: fixed;
+    top: 90px; /* Сдвигаем кнопку немного вниз */
+    left: 400px; /* Сдвигаем кнопку немного вправо */
+    background: none; /* Без фона */
+    color: #717171; /* Темно-серый цвет */
+    font-size: 20px; /* Увеличен размер текста */
+    font-weight: bold; /* Жирный стиль текста */
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: #007bff; /* Цвет при наведении */
+}

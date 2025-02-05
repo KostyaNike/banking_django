@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Поиск маршрутов{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cards/css/auto.css' %}">
+
+<a href="javascript:history.back()" class="back-button">Назад</a>
+
+<!-- Контейнер для текста и кнопок -->
+<div class="unique-container">
+    <h2 class="unique-header">Ваше авто</h2>
+    <div class="unique-button-container">
+        <a href="auto_parking" class="unique-action-button" id="parking-button"><b>Парковка</b></a>
+        <a href="auto_fine" class="unique-action-button" id="fines-button"><b>Штрафи та порушення</b></a>
+    </div>
+</div>
+
+{% endblock %}

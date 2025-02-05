@@ -11,4 +11,10 @@ urlpatterns = [
     path('<int:pk>/transfer', views.transfer, name='transfer'),
     path('<int:pk>/insurance/', TemplateView.as_view(template_name="cards/insurance.html"), name='insurance'),
     path('<int:pk>/close-card/', views.delete_card, name='close_card'),
+    path('<int:pk>/train/', views.search_trains, name='search_trains'),  
+    path('<int:pk>/auto/', TemplateView.as_view(template_name="cards/auto.html"), name='auto'),
+    path('<int:pk>/auto/auto_parking/', views.auto_parking, name='auto_parking'),
+    path('<int:pk>/auto/auto_fine/', TemplateView.as_view(template_name="cards/auto_fine.html"), name='auto_fine'),
+    path('<int:pk>/auto/auto_fine/auto_fine_parking/', views.check_auto_fines, name='auto_fine_parking'),
+    path('<int:pk>/auto/auto_fine/auto_pdr/', views.check_auto_fines_pdr, name='auto_pdr'),
 ]

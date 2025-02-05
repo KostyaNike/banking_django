@@ -53,9 +53,21 @@
         <hr>
 
         <div class="tabs">
-            <button class="tab-button active" data-tab="transactions">Транзакції</button>
             <button class="tab-button" data-tab="services">Послуги</button>
+            <button class="tab-button active" data-tab="transactions">Транзакції</button>
             <button class="tab-button" data-tab="rates">Курс</button>
+        </div>
+
+        <div class="tab-content" id="services" style="display: none;">
+            <div class="services-buttons">
+                <a href="mobile" class="service-button" style="--color-start: #6a1b9a; --color-end: #ab47bc;">Поповнення мобільного</a>
+                <a href="insurance" class="service-button" style="--color-start: #1565c0; --color-end: #42a5f5;">Страхування</a>
+                <a href="#" class="service-button" style="--color-start: #2e7d32; --color-end: #66bb6a;">Банка накопичування</a>
+                <a href="auto" class="service-button" style="--color-start: #ef6c00; --color-end: #ffb74d;">Авто</a>
+                <a href="#" class="service-button" style="--color-start: #c62828; --color-end: #ef5350;">Кредит</a>
+                <a href="train" class="service-button" style="--color-start: #6d4c41; --color-end: #a1887f;">Поїзд</a>
+                <a href="close-card" class="service-button" style="--color-start: #424242; --color-end: #757575;">Закрити картку</a>
+            </div>
         </div>
 
         <div class="tab-content" id="transactions" style="display: block;">
@@ -67,8 +79,8 @@
                                 <strong class="transaction-recipient">Отримувач:</strong> <span class="recipient-name">{{ transaction.recipient.username }}</span>
                             </div>
                             <div class="transaction-details">
-                                <strong class="transaction-amount">Сума:</strong> <span class="amount-value">{{ transaction.amount }} ₴</span>
-                                <strong class="transaction-date">Дата:</strong> <span class="transaction-date-value">{{ transaction.date }}</span>
+                                <strong class="transaction-amount">Сума:</strong> <span class="amount-value"><b>{{ transaction.amount }} </b>₴</span>
+                                <strong class="transaction-date">Дата:</strong> <span class="transaction-date-value"><b>{{ transaction.date }}</b></span>
                             </div>
                         </li>
                     {% endfor %}
@@ -76,18 +88,6 @@
             {% else %}
                 <p class="no-transactions-message">Транзакції відсутні.</p>
             {% endif %}
-        </div>   
-
-        <div class="tab-content" id="services" style="display: none;">
-            <div class="services-buttons">
-                <a href="mobile" class="service-button" style="--color-start: #6a1b9a; --color-end: #ab47bc;">Поповнення мобільного</a>
-                <a href="insurance" class="service-button" style="--color-start: #1565c0; --color-end: #42a5f5;">Страхування</a>
-                <a href="#" class="service-button" style="--color-start: #2e7d32; --color-end: #66bb6a;">Банка накопичування</a>
-                <a href="#" class="service-button" style="--color-start: #ef6c00; --color-end: #ffb74d;">Авто</a>
-                <a href="#" class="service-button" style="--color-start: #c62828; --color-end: #ef5350;">Кредит</a>
-                <a href="#" class="service-button" style="--color-start: #6d4c41; --color-end: #a1887f;">Поїзд</a>
-                <a href="close-card" class="service-button" style="--color-start: #424242; --color-end: #757575;">Закрити картку</a>
-            </div>
         </div>
 
         <div class="tab-content" id="rates" style="display: none;">

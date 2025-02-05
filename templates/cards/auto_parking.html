@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Парковка авто{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cards/css/auto.css' %}">
+
+<div class="parking-container">
+    <div class="parking-box">
+        <a href="javascript:history.back()" class="back-button">← Назад</a>
+        <h1 class="parking-title">Оформлення абонементу</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="city">Місто:</label>
+                <input type="text" id="city" name="city" class="input-field" required>
+            </div>
+
+            <div class="form-group">
+                <label for="car_number">Номер авто:</label>
+                <input type="text" id="car_number" name="car_number" class="input-field"
+                    pattern="[A-Z]{2}[0-9]{4}[A-Z]{2}" 
+                    title="Формат: XX0000XX (например, AB1234CD)" required>
+            </div>
+
+            <p class="payment-amount">Сума до сплати: <strong>150.00 грн</strong></p>
+
+            <button type="submit" class="payment-button">Сплатити</button>
+        </form>
+
+        {% if error_message %}
+            <p class="message message-error">{{ error_message }}</p>
+        {% endif %}
+
+        {% if success_message %}
+            <p class="message message-success">{{ success_message }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,17 +1,22 @@
 {% extends 'layout.html' %}
+{% load static %}
 
-{% block title %} Карти {% endblock %}
+{% block title %} Картки {% endblock %}
 
 {% block content %}
-<div class="features">
-    {% if request.user.is_authenticated %}
-        <h2>Ваші картки:</h2>
+<link rel="stylesheet" href="{% static 'cards/css/cards-style.css' %}">
+
+<div class="card-list-container">
+    <div class="card-list-title">Ваші картки</div>
+    <div class="card-list">
         {% for card in cards %}
-            <p>Номер картки: {{ card.card_number }}</p>
-            <a href="{% url 'cards:card' pk=card.pk %}">Просмотреть карточку</a>
+            <div class="card-item">
+                <span class="card-number">Номер картки: {{ card.card_number }}</span>
+                <a href="{% url 'cards:card' pk=card.pk %}" class="view-button">Переглянути</a>
+            </div>
         {% endfor %}
-    {% else %}
-    <p>Будь ласка, <a href="/auth/login/">увійдіть</a> або <a href="/auth/register/">зареєструйтесь</a>.</p>
-    {% endif %}
+    </div>
 </div>
-    {% endblock %}
+
+
+{% endblock %}
