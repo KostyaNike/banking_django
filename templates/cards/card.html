@@ -58,7 +58,7 @@
             <button class="tab-button" data-tab="rates">Курс</button>
         </div>
 
-        <div class="tab-content" id="services" style="display: none;">
+        <div class="tab-content" id="services" style="display: block;">
             <div class="services-buttons">
                 <a href="mobile" class="service-button" style="--color-start: #6a1b9a; --color-end: #ab47bc;">Поповнення мобільного</a>
                 <a href="insurance" class="service-button" style="--color-start: #1565c0; --color-end: #42a5f5;">Страхування</a>
@@ -70,7 +70,7 @@
             </div>
         </div>
 
-        <div class="tab-content" id="transactions" style="display: block;">
+        <div class="tab-content" id="transactions" style="display: none;">
             {% if transactions %}
                 <ul class="transaction-list">
                     {% for transaction in transactions %}
@@ -92,7 +92,8 @@
 
         <div class="tab-content" id="rates" style="display: none;">
             <h2>Курс</h2>
-            <p>Информация о курсах валют будет добавлена позже.</p>
+            <div id="exchangeRates" class="exchange-rates"></div>
+            <button id="scrollDownButton" class="scroll-button" onclick="scrollToBottom()">&#x2193;</button>
         </div>
         
     {% else %}
@@ -105,6 +106,10 @@
     // Получаем все табы и их контент
     const tabs = document.querySelectorAll('.tab-button');
     const tabContents = document.querySelectorAll('.tab-content');
+
+    // Получаем кнопку прокрутки
+    let scrollButton;
+    let lastScrollPosition = 0; // Переменная для отслеживания последней позиции скролла
 
     // Добавляем обработчик события для каждой кнопки таба
     tabs.forEach(tab => {
@@ -125,8 +130,94 @@
 
             // Добавляем класс активного таба
             tab.classList.add('active');
+
+            // Если это вкладка "Курс", показываем кнопку прокрутки
+            if (tab.dataset.tab === 'rates') {
+                showScrollButton();
+                fetchExchangeRates();
+            } else {
+                hideScrollButton();
+            }
         });
     });
+
+    // Функция для показа кнопки прокрутки вниз
+    function showScrollButton() {
+        if (!scrollButton) {
+            scrollButton = document.createElement('button');
+            scrollButton.id = 'scrollDownButton';
+            scrollButton.classList.add('scroll-button');
+            scrollButton.innerHTML = '&#x2193;';
+            scrollButton.onclick = scrollToBottom;
+            document.body.appendChild(scrollButton);
+        }
+        scrollButton.style.display = 'block';
+        setTimeout(() => scrollButton.classList.add('show'), 100);
+        window.addEventListener('scroll', toggleScrollButton);
+    }
+
+    // Функция для скрытия кнопки
+    function hideScrollButton() {
+        if (scrollButton) {
+            scrollButton.classList.remove('show');
+            setTimeout(() => scrollButton.style.display = 'none', 300);
+            window.removeEventListener('scroll', toggleScrollButton);
+        }
+    }
+
+    // Функция для прокрутки вниз
+    function scrollToBottom() {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
+    }
+
+    // Функция для управления отображением кнопки
+    function toggleScrollButton() {
+        const currentScrollPosition = window.scrollY; // Текущая позиция скролла
+
+        // Если мы прокручиваем страницу вверх (сравниваем с предыдущей позицией)
+        if (currentScrollPosition < lastScrollPosition) {
+            // Если прокрутили вверх, показываем кнопку
+            scrollButton.classList.add('show');
+        } else {
+            // Если прокрутили вниз, скрываем кнопку
+            scrollButton.classList.remove('show');
+        }
+
+        // Обновляем позицию последнего скролла
+        lastScrollPosition = currentScrollPosition;
+    }
+
+    window.addEventListener('scroll', toggleScrollButton);
+
+    // Функция для получения курсов валют
+    async function fetchExchangeRates() {
+        try {
+            const response = await fetch('https://api.exchangerate-api.com/v4/latest/UAH');
+            const data = await response.json();
+            
+            // Округляем курсы до 2 знаков после запятой
+            const usdRate = (1 / data.rates.USD).toFixed(2);
+            const eurRate = (1 / data.rates.EUR).toFixed(2);
+            const gbpRate = (1 / data.rates.GBP).toFixed(2);
+            const plnRate = (1 / data.rates.PLN).toFixed(2);
+
+            // Выводим курсы в элемент с id "exchangeRates"
+            const exchangeRatesElement = document.getElementById('exchangeRates');
+            exchangeRatesElement.innerHTML = `
+                <div class="exchange-rates-block">
+                    <p class="exchange-rate-item">1 USD = ${usdRate} грн</p>
+                    <p class="exchange-rate-item">1 EUR = ${eurRate} грн</p>
+                    <p class="exchange-rate-item">1 GBP = ${gbpRate} грн</p>
+                    <p class="exchange-rate-item">1 PLN = ${plnRate} грн</p>
+                </div>
+            `;
+        } catch (error) {
+            console.error('Ошибка при получении курсов валют:', error);
+        }
+    }
 
     // Получаем элементы для переворота карточки
     const flipButton = document.getElementById('flipButton');
@@ -154,16 +245,8 @@
         isCVVVisible = !isCVVVisible;
     }
 
-    async function fetchExchangeRate() {
-        try {
-            const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTRUB');
-            const data = await response.json();
-            const exchangeRateElement = document.getElementById('exchangeRate');
-            exchangeRateElement.textContent = `1 USD = ${parseFloat(data.price).toFixed(2)} грн`;
-        } catch (error) {
-            console.error('Ошибка при получении курса валют:', error);
-        }
-    }
-    document.addEventListener('DOMContentLoaded', fetchExchangeRate);
+    // Вызов функции сразу после загрузки страницы
+    document.addEventListener('DOMContentLoaded', fetchExchangeRates);
 </script>
+
 {% endblock %}
