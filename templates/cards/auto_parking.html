@@ -6,9 +6,10 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'cards/css/auto.css' %}">
 
+<a href="{% url 'cards:card' pk=card.pk %}" class="back-button">← Назад</a>
+
 <div class="parking-container">
     <div class="parking-box">
-        <a href="javascript:history.back()" class="back-button">← Назад</a>
         <h1 class="parking-title">Оформлення абонементу</h1>
 
         <form method="POST">

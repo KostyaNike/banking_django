@@ -17,4 +17,7 @@ urlpatterns = [
     path('<int:pk>/auto/auto_fine/', TemplateView.as_view(template_name="cards/auto_fine.html"), name='auto_fine'),
     path('<int:pk>/auto/auto_fine/auto_fine_parking/', views.check_auto_fines, name='auto_fine_parking'),
     path('<int:pk>/auto/auto_fine/auto_pdr/', views.check_auto_fines_pdr, name='auto_pdr'),
+    path('<int:pk>/credit/add_credit/', views.credit_view, name='add_credit'),
+    path('<int:pk>/credit/', TemplateView.as_view(template_name="cards/credit.html"), name='credit'),
+    path('<int:pk>/credit/info/', views.credit_info, name='credit_info'),
 ]

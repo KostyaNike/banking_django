@@ -36,6 +36,12 @@ class CustomUser(AbstractBaseUser):
     def __str__(self):
         return self.email
 
+class CreditUser(CustomUser):
+    credit_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+
+    def __str__(self):
+        return f"{self.email} - Credit Balance: {self.credit_balance}"
+
 class BankCard(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="bank_card")
     card_number = models.CharField(max_length=16, unique=True)

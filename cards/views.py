@@ -6,6 +6,7 @@ from decimal import Decimal, InvalidOperation  # Подключаем модел
 import feedparser
 from .gtfs_processor import get_routes
 import re
+from django.contrib.auth.decorators import login_required
 
 def cards(request):
     # Получение всех карт, связанных с текущим пользователем
@@ -204,3 +205,93 @@ def check_auto_fines_pdr(request, pk):
             message = "Жодний штраф не зареєстровано на це авто."
 
     return render(request, 'cards/auto_pdr.html', {'message': message})
+
+@login_required
+def credit_view(request, pk):
+    card = get_object_or_404(BankCard, pk=pk, user=request.user)
+    user = request.user
+
+    # Получаем данные из сессии, если они есть
+    credit_term = request.session.get("credit_term", 0)
+    monthly_payment = request.session.get("monthly_payment", None)
+
+    if request.method == "POST":
+        # Оформление кредита
+        if "take_credit" in request.POST:
+            credit_amount = Decimal(request.POST.get("credit_amount"))
+            credit_term = int(request.POST.get("credit_term"))
+
+            if credit_amount < 500 or credit_amount > 50000:
+                messages.error(request, "Сума кредиту повинна бути в межах від 500 до 50000.")
+                return redirect("cards:add_credit", pk=pk)
+
+            # Определяем процентную ставку
+            interest_rate = Decimal(0.15) if credit_term <= 6 else Decimal(0.20)
+            total_payment = credit_amount * (1 + interest_rate)
+            monthly_payment = round(total_payment / credit_term, 2)
+
+            # Сохраняем в пользователя и сессию
+            user.credit_balance += credit_amount
+            user.save()
+            request.session["credit_term"] = credit_term
+            request.session["monthly_payment"] = float(monthly_payment)
+
+            messages.success(request, f"Кредит оформлено на суму {credit_amount} грн на {credit_term} місяців.")
+            return redirect("cards:add_credit", pk=pk)
+
+        # Погашение кредита
+        elif "repay_credit" in request.POST:
+            if user.credit_balance > 0:
+                user.credit_balance = Decimal(0)  # Обнуляем кредит
+                user.save()
+
+                # Очищаем данные о кредите
+                request.session["credit_term"] = 0
+                request.session["monthly_payment"] = None
+
+                messages.success(request, "Ваш кредит успішно погашений!")
+            else:
+                messages.error(request, "У вас немає активного кредиту.")
+
+            return redirect("cards:add_credit", pk=pk)
+
+    return render(request, "cards/credit_plus.html", {
+        "card": card,
+        "user": user,
+        "monthly_payment": monthly_payment,
+        "credit_term": credit_term
+    })
+
+@login_required
+def credit_info(request, pk):
+    card = get_object_or_404(BankCard, pk=pk, user=request.user)
+    user = card.user  # Получаем пользователя, связанного с картой
+
+    # Получаем данные о кредите из сессии
+    credit_term = request.session.get("credit_term", 0)
+    monthly_payment = request.session.get("monthly_payment", None)
+
+    if request.method == "POST":
+        # Если нажата кнопка для погашения кредита
+        if "repay_credit" in request.POST:
+            if user.credit_balance > 0:
+                user.credit_balance = 0  # Обнуляем кредит
+                user.save()
+
+                # Очищаем данные о кредите в сессии
+                request.session["credit_term"] = 0
+                request.session["monthly_payment"] = None
+
+                messages.success(request, "Ваш кредит успішно погашений!")
+
+            else:
+                messages.error(request, "У вас немає активного кредиту.")
+
+            return redirect("cards:credit_info", pk=pk)
+
+    return render(request, "cards/credit_close.html", {
+        "card": card,
+        "user": user,
+        "monthly_payment": monthly_payment,
+        "credit_term": credit_term
+    })

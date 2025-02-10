@@ -19,11 +19,15 @@
                 <div class="card-container">
                     <div class="card" id="card">
                         <div class="card-front">
-                            <div class="card-number">{{ card.card_number }}</div>
+                            <div class="card-number">
+                                <span class="visible-part">{{ card.card_number|slice:":2" }}</span>
+                                <span class="masked-part">**********</span>
+                                <span class="visible-part">{{ card.card_number|slice:"12:" }}</span>
+                            </div>                                                        
                             <div class="card-expiry">Термін: {{ card.expiry_date }}</div>
                         </div>
                         <div class="card-back">
-                            <div class="card-number">{{ card.card_number }}</div>
+                            <div class="card-number" id="cardNumberFull">{{ card.card_number }}</div>
                             <div class="card-cvv">CVV: {{ card.cvv }}</div>
                         </div>
                     </div>
@@ -38,6 +42,7 @@
                     <div class="balance-info">
                         <span class="balance-amount">{{ card.balance }} грн</span>
                         <span class="exchange-rate" id="exchangeRate"></span>
+                        <p class="credit-info">Кредит: {{ user.credit_balance }} грн</p>
                     </div>
                     <hr class="divider">
                     <div class="action-buttons">
@@ -64,7 +69,7 @@
                 <a href="insurance" class="service-button" style="--color-start: #1565c0; --color-end: #42a5f5;">Страхування</a>
                 <a href="#" class="service-button" style="--color-start: #2e7d32; --color-end: #66bb6a;">Банка накопичування</a>
                 <a href="auto" class="service-button" style="--color-start: #ef6c00; --color-end: #ffb74d;">Авто</a>
-                <a href="#" class="service-button" style="--color-start: #c62828; --color-end: #ef5350;">Кредит</a>
+                <a href="credit" class="service-button" style="--color-start: #c62828; --color-end: #ef5350;">Кредит</a>
                 <a href="train" class="service-button" style="--color-start: #6d4c41; --color-end: #a1887f;">Поїзд</a>
                 <a href="close-card" class="service-button" style="--color-start: #424242; --color-end: #757575;">Закрити картку</a>
             </div>
@@ -247,6 +252,25 @@
 
     // Вызов функции сразу после загрузки страницы
     document.addEventListener('DOMContentLoaded', fetchExchangeRates);
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const cardNumberElement = document.getElementById('cardNumber');
+        const cardNumberFullElement = document.getElementById('cardNumberFull');
+
+        // Функция для маскировки номера
+        function maskCardNumber(cardNumber) {
+            // Отображаем первые 2 цифры, затем 10 звезд и последние 4 цифры
+            return cardNumber.slice(0, 2) + '**********' + cardNumber.slice(-4);
+        }
+
+        const cardNumber = '{{ card.card_number }}'; // Получаем номер карты из шаблона
+
+        // Маскируем номер на передней стороне карточки
+        cardNumberElement.textContent = maskCardNumber(cardNumber);
+
+        // Показать полный номер на оборотной стороне
+        cardNumberFullElement.textContent = cardNumber;
+    });
 </script>
 
 {% endblock %}

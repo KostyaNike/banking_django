@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Інформація про кредит для: {{ card.card_number }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cards/css/add_credit.css' %}">
+
+<a href="{% url 'cards:card' pk=card.pk %}" class="back-button">← Назад</a>
+
+<div class="credit-wrapper">
+    <div class="credit-container">
+        <h2 class="credit-header">Інформація про ваш кредит</h2>
+
+        <div class="current-credit">
+            <h3 class="credit-header">Ваш поточний кредит</h3>
+            {% if user.credit_balance > 0 %}
+                <p class="credit-info">Сума: <strong>{{ user.credit_balance }} грн</strong></p>
+                <p class="credit-info">Термін кредиту: <strong>{{ credit_term }} місяців</strong></p>
+                <p class="credit-info">Щомісячний платіж: <strong>{{ monthly_payment }} грн</strong></p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="repay_credit" class="credit-repay-button">Погасити кредит</button>
+                </form>
+            {% else %}
+                <p class="credit-info">Жодний кредит на вашому рахунку.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

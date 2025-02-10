@@ -1,0 +1,196 @@
+/* Основной контейнер для оформления кредита */
+.credit-wrapper {
+    display: flex;
+    justify-content: center; /* Горизонтальное центрирование */
+    align-items: center; /* Вертикальное центрирование */
+    min-height: 70vh; /* Увеличиваем высоту блока для свободного размещения элементов */
+    margin-left: 250px;
+    padding-top: 50px; /* Добавлен отступ сверху */
+    padding-bottom: 50px; /* Добавлен отступ снизу */
+}
+
+/* Контейнер кредитного блока */
+.credit-container {
+    top: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 40px;  /* Уменьшаем отступы внутри блока */
+    max-width: 700px;  /* Ширина блока остается без изменений */
+    width: 100%;
+    background-color: #f5f5f5;  /* Светлый фон для блока */
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+    margin-left: auto;  /* Для выравнивания блока по центру */
+    margin-right: auto; /* Для выравнивания блока по центру */
+    transition: transform 0.3s ease;
+    bottom: 0px;
+}
+
+.credit-container:hover {
+    transform: scale(1.03); /* Легкое увеличение при наведении */
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(50px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Заголовок страницы */
+.credit-header {
+    font-size: 22px; /* Уменьшаем размер шрифта заголовка */
+    color: #2d3e50;
+    text-align: center;
+    margin-bottom: 15px; /* Уменьшаем отступ от заголовка */
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    letter-spacing: 1px;
+    animation: textFadeIn 1.5s ease-in-out;
+}
+
+/* Анимация заголовка */
+@keyframes textFadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Форма оформления кредита */
+.credit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Уменьшаем промежутки между элементами формы */
+    width: 100%;
+}
+
+/* Метки формы */
+.credit-form-label {
+    font-size: 15px; /* Уменьшаем размер шрифта меток */
+    color: #555;
+    margin-bottom: 6px; /* Уменьшаем отступ от меток */
+    font-weight: bold;
+}
+
+/* Поля ввода */
+.credit-input-field {
+    padding: 10px; /* Уменьшаем внутренние отступы */
+    font-size: 15px; /* Уменьшаем размер шрифта */
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #333;
+    margin-bottom: 12px; /* Уменьшаем отступы между полями */
+    width: 90%;
+    max-width: 400px;
+    box-sizing: border-box;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+}
+
+.credit-input-field:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+/* Кнопка оформления кредита */
+.credit-submit-button {
+    padding: 10px; /* Уменьшаем внутренние отступы */
+    font-size: 15px; /* Уменьшаем размер шрифта */
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 67%;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+.credit-submit-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Блок текущего кредита */
+.current-credit {
+    margin-top: 10px; /* Уменьшаем отступ сверху */
+    background: #fafafa;
+    padding: 8px; /* Уменьшаем отступы внутри блока */
+    border-radius: 5px;
+    width: 90%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Кнопка погашения кредита */
+.credit-repay-button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px; /* Уменьшаем отступы */
+    width: 80%;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin-left: -150px;
+}
+
+.credit-repay-button:hover {
+    background: #218838;
+}
+
+/* Сообщения */
+.credit-messages-container {
+    margin-top: 15px;
+}
+
+.credit-message {
+    padding: 10px; /* Уменьшаем отступы */
+    margin-bottom: 10px; /* Уменьшаем отступы между сообщениями */
+    border-radius: 10px;
+    font-size: 14px;
+    background-color: #f8d7da;
+    color: #721c24;
+    transition: opacity 0.3s ease;
+}
+
+.credit-message.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.credit-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Убираем фокус с полей */
+.credit-input-field:focus-visible {
+    outline: none;
+}
+
+/* Кнопка "Назад" */
+.back-button {
+    position: fixed;
+    top: 90px;
+    left: 400px;
+    background: none;
+    color: #717171;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: #007bff;
+}
