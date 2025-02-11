@@ -8,11 +8,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <!-- <link rel="stylesheet" href="{% static 'cards/css/style_card.css' %}"> -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
 </head>
 <body>
+    <!-- Кнопка переключения темы с анимацией -->
+    <div id="theme-toggle" class="theme-toggle-btn">
+        <div class="theme-toggle-slider"></div>
+        <i class="fas fa-moon moon-icon"></i>
+        <i class="fas fa-sun sun-icon"></i>
+    </div>
+
     <aside>
-        <img scr="{% static 'home/img/logo.svg' %}" alt="Лого">
+        <img src="{% static 'home/img/logo.svg' %}" alt="Лого">
         <span class="logo">Company</span>
         <h3>Навігація</h3>
         <ul>
@@ -25,9 +35,35 @@
             <p>Будь ласка, <a href="/auth/login/">увійдіть</a> або <a href="/auth/register/">зареєструйтесь</a>.</p>
         {% endif %}
     </aside>
+
     <main>
         {% block content %}
         {% endblock %}
     </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // Проверка, есть ли сохраненная тема в localStorage
+        if(localStorage.getItem('theme') === 'light') {
+            body.classList.add('light-theme');
+        } else {
+            body.classList.remove('light-theme');
+        }
+
+        // Переключаем тему при нажатии на кнопку
+        themeToggleButton.addEventListener('click', () => {
+            body.classList.toggle('light-theme');
+
+            // Сохраняем состояние темы в localStorage
+            if (body.classList.contains('light-theme')) {
+                localStorage.setItem('theme', 'light');
+            } else {
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    </script>
 </body>
 </html>

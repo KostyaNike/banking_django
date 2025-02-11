@@ -11,14 +11,14 @@
 <div class="outer-container">
     <div class="content-wrapper">
         <div class="delete-card-container">
-            <h2>Вы уверены, что хотите удалить эту карточку?</h2>
-            <p>После удаления все данные карточки будут потеряны. Пожалуйста, подтвердите, если хотите продолжить.</p>
+            <h2>Ви впевнені, що бажаєте видалити цю картку?</h2>
+            <p>Після видалення всі дані картки будуть втрачені. Будь ласка, підтвердіть, якщо хочете продовжити.</p>
 
             <form method="POST" action="{% url 'cards:close_card' pk=card.pk %}">
                 {% csrf_token %}
                 <div class="button-container">
-                    <button type="submit" class="insurance-button delete">Удалить</button>
-                    <a href="javascript:history.back()" class="insurance-button cancel">Отмена</a>
+                    <button type="submit" class="insurance-button delete">Видалити</button>
+                    <a href="javascript:history.back()" class="insurance-button cancel">Скасувати</a>
                 </div>
             </form>
         </div>

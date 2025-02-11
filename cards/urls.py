@@ -1,6 +1,8 @@
 from django.urls import path
 from cards import views
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'cards'
 
@@ -20,4 +22,4 @@ urlpatterns = [
     path('<int:pk>/credit/add_credit/', views.credit_view, name='add_credit'),
     path('<int:pk>/credit/', TemplateView.as_view(template_name="cards/credit.html"), name='credit'),
     path('<int:pk>/credit/info/', views.credit_info, name='credit_info'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])

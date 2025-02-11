@@ -5,6 +5,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'cards/css/style_card.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <div class="features">
     {% if request.user.is_authenticated %}
@@ -65,13 +66,27 @@
 
         <div class="tab-content" id="services" style="display: block;">
             <div class="services-buttons">
-                <a href="mobile" class="service-button" style="--color-start: #6a1b9a; --color-end: #ab47bc;">Поповнення мобільного</a>
-                <a href="insurance" class="service-button" style="--color-start: #1565c0; --color-end: #42a5f5;">Страхування</a>
-                <a href="#" class="service-button" style="--color-start: #2e7d32; --color-end: #66bb6a;">Банка накопичування</a>
-                <a href="auto" class="service-button" style="--color-start: #ef6c00; --color-end: #ffb74d;">Авто</a>
-                <a href="credit" class="service-button" style="--color-start: #c62828; --color-end: #ef5350;">Кредит</a>
-                <a href="train" class="service-button" style="--color-start: #6d4c41; --color-end: #a1887f;">Поїзд</a>
-                <a href="close-card" class="service-button" style="--color-start: #424242; --color-end: #757575;">Закрити картку</a>
+                <a href="mobile" class="service-button" style="--color-start: #8311ca;">
+                    <i class="fas fa-mobile-alt"></i> Поповнення мобільного
+                </a>
+                <a href="credit" class="service-button" style="--color-start: #ac1d1d;">
+                    <i class="fas fa-credit-card"></i> Кредит
+                </a>
+                <a href="auto" class="service-button" style="--color-start: #ef6c00;">
+                    <i class="fas fa-car"></i> Авто
+                </a>
+                <a href="close-card" class="service-button" style="--color-start: #5b5b5b;">
+                    <i class="fas fa-times-circle"></i> Закрити картку
+                </a>
+                <a href="#" class="service-button" style="--color-start: #2e7d32;">
+                    <i class="fas fa-piggy-bank"></i> Банка накопичування
+                </a>
+                <a href="insurance" class="service-button" style="--color-start: #1565c0;">
+                    <i class="fas fa-shield-alt"></i> Страхування
+                </a>
+                <a href="train" class="service-button" style="--color-start: #694f47;">
+                    <i class="fas fa-subway"></i> Поїзд
+                </a>
             </div>
         </div>
 

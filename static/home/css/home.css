@@ -1,7 +1,9 @@
+/* Общие стили для тем */
 body {
     background: #2c2c2c;
     margin: 0;
     padding: 0;
+    transition: background 0.3s ease, color 0.3s ease; /* Плавный переход фона и цвета текста */
 }
 
 aside {
@@ -15,6 +17,7 @@ aside {
     color: #fff;
     border-right: 5px solid #4d4d4d;
     z-index: 1000; /* Ставим блок поверх других элементов */
+    transition: background 0.3s ease, color 0.3s ease; /* Плавный переход фона и текста */
 }
 
 aside img {
@@ -81,4 +84,165 @@ form {
     margin-left: 32%;
     width: 500px;
     margin-top: 50px;
+}
+
+/* Светлая тема */
+body.light-theme {
+    background: #c2c2c2;
+    color: #333; /* Текст будет темным в светлой теме */
+}
+
+body.light-theme aside {
+    background: #f9f9f9; /* Светлый фон для aside */
+    color: #333; /* Текст в aside будет темным */
+}
+
+body.light-theme main {
+    color: #333; /* Текст на основной странице */
+}
+
+body.light-theme .features h1,
+body.light-theme .features p {
+    color: #333; /* Текст в разделе .features */
+}
+
+/* Кнопка переключения темы */
+.theme-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 60px;
+    height: 30px;
+    background: #333;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    justify-content: space-between;
+    z-index: 10000; /* Убедитесь, что кнопка не скрывается */
+}
+
+.theme-toggle-btn .theme-toggle-slider {
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle-btn .moon-icon,
+.theme-toggle-btn .sun-icon {
+    color: #fff;
+    font-size: 16px;
+    position: absolute;
+    transition: opacity 0.3s ease;
+}
+
+.theme-toggle-btn .moon-icon {
+    left: 5px;
+}
+
+.theme-toggle-btn .sun-icon {
+    right: 5px;
+    opacity: 0; /* Изначально скрыта */
+}
+
+/* Положение ползунка при темной теме */
+body:not(.light-theme) .theme-toggle-slider {
+    transform: translateX(30px);
+}
+
+body.light-theme .theme-toggle-btn {
+    background: #f1f1f1;
+}
+
+body.light-theme .theme-toggle-btn .theme-toggle-slider {
+    background: #333;
+}
+
+/* Иконки для темной и светлой тем */
+body:not(.light-theme) .theme-toggle-btn .moon-icon {
+    opacity: 1; /* Показываем луну при темной теме */
+}
+
+body.light-theme .theme-toggle-btn .sun-icon {
+    opacity: 1; /* Показываем солнце при светлой теме */
+}
+
+/* Стили для ползунка */
+body:not(.light-theme) .theme-toggle-btn .theme-toggle-slider {
+    background: #fff; /* Ползунок становится белым для темной темы */
+}
+
+/* Изменение цвета луны при переключении темы */
+body.light-theme .theme-toggle-btn .moon-icon {
+    color: #333; /* Луна становится темной при светлой теме */
+}
+
+body:not(.light-theme) .theme-toggle-btn .sun-icon {
+    color: #fff; /* Солнце становится белым при темной теме */
+}
+
+/* Изменение цвета солнца при светлой теме */
+body.light-theme .theme-toggle-btn .sun-icon {
+    color: #333; /* Солнце становится темным в светлой теме */
+}
+
+/* Изменение цвета кнопок на хедере */
+body.light-theme header button {
+    color: #333; /* Кнопки на хедере становятся черными в светлой теме */
+}
+
+body.light-theme header button:hover {
+    color: #fff; /* При наведении кнопки становятся светлыми */
+    background-color: #333;
+}
+
+/* Для кнопок на хедере в темной теме */
+body:not(.light-theme) header button {
+    color: #fff; /* Кнопки на хедере становятся белыми в темной теме */
+}
+
+body:not(.light-theme) header button:hover {
+    color: #333; /* При наведении кнопки становятся темными */
+    background-color: #fff;
+}
+
+/* Стиль для ссылок на странице, меняются на черные для светлой темы */
+body.light-theme aside ul li a {
+    color: #333; /* Ссылки становятся черными в светлой теме */
+}
+
+body.light-theme aside ul li a:hover {
+    color: #eb5959; /* Цвет при наведении на ссылку */
+}
+
+body.light-theme header ul li a {
+    color: #333; /* Ссылки становятся черными в светлой теме */
+}
+
+body.light-theme header ul li a:hover {
+    color: #eb5959; /* Цвет при наведении на ссылку */
+}
+
+/* Для кнопок на хедере */
+body.light-theme header button {
+    color: #333; /* Кнопки становятся черными в светлой теме */
+}
+
+body.light-theme header button:hover {
+    background-color: #333;
+    color: #fff; /* При наведении кнопки становятся белыми */
+}
+
+/* Для кнопок на хедере в темной теме */
+body:not(.light-theme) header button {
+    color: #fff; /* Кнопки становятся белыми в темной теме */
+}
+
+body:not(.light-theme) header button:hover {
+    background-color: #fff;
+    color: #333; /* При наведении кнопки становятся темными */
 }

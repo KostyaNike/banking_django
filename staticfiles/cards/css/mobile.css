@@ -1,0 +1,166 @@
+/* Новый стиль для блока пополнения мобильного телефона */
+
+.content-wrapper {
+    display: flex;
+    justify-content: center; /* Горизонтальное центрирование */
+    align-items: center; /* Вертикальное центрирование */
+    min-height: 100vh; /* Занимает всю высоту экрана */
+    margin-left: 250px;
+}
+
+
+/* Основной контейнер для блока пополнения */
+.mobile-recharge-container {
+    top: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 25px 50px;  /* Увеличиваем отступы для блока */
+    max-width: 700px;  /* Ширина блока стала больше */
+    width: 100%;
+    background-color: #f5f5f5;  /* Светлый фон для блока */
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+    margin-bottom: 40px; /* Уменьшаем отступ снизу */
+    margin-left: auto;  /* Для выравнивания блока по центру */
+    margin-right: auto; /* Для выравнивания блока по центру */
+    transition: transform 0.3s ease;
+    bottom: 0px;
+}
+
+.mobile-recharge-container:hover {
+    transform: scale(1.03);  /* Увеличиваем блок при наведении */
+}
+
+/* Анимация появления блока */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(50px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Заголовок страницы */
+.mobile-page-header {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    letter-spacing: 1px;
+    color: #2d3e50;
+    animation: textFadeIn 1.5s ease-in-out;
+}
+
+/* Анимация заголовка */
+@keyframes textFadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Форма пополнения */
+.mobile-recharge-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Мета-данные для всех меток формы */
+.mobile-form-label {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+/* Стиль для полей ввода */
+.mobile-input-field {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #333;
+    margin-bottom: 20px;
+    width: 90%;  /* Поля для ввода короче, чтобы не выходили за блок */
+    max-width: 400px;  /* Ограничение по ширине */
+    box-sizing: border-box;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Arial', sans-serif;
+}
+
+.mobile-input-field:focus {
+    border-color: #4CAF50;  /* Зеленая граница при фокусе */
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 204, 102, 0.5);
+}
+
+/* Кнопка "Поповнити" */
+.mobile-submit-button {
+    padding: 12px;
+    font-size: 16px;
+    color: white;
+    background-color: #4CAF50;  /* Зеленый фон кнопки */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 67%;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+.mobile-submit-button:hover {
+    background-color: #45a049;  /* Темнее при наведении */
+    transform: translateY(-2px);  /* Легкое поднятие кнопки при наведении */
+}
+
+/* Сообщения об ошибках или успехах */
+.mobile-messages-container {
+    margin-top: 20px;
+}
+
+.mobile-message {
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    background-color: #f8d7da;
+    color: #721c24;
+    transition: opacity 0.3s ease;
+}
+
+.mobile-message.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.mobile-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Убираем фокус с полей ввода при клике */
+.mobile-input-field:focus-visible {
+    outline: none;
+}
+
+.back-button {
+    position: fixed;
+    top: 90px; /* Сдвигаем кнопку немного вниз */
+    left: 400px; /* Сдвигаем кнопку немного вправо */
+    background: none; /* Без фона */
+    color: #717171; /* Темно-серый цвет */
+    font-size: 20px; /* Увеличен размер текста */
+    font-weight: bold; /* Жирный стиль текста */
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: #007bff; /* Цвет при наведении */
+}

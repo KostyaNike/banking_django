@@ -27,6 +27,7 @@
     margin-right: auto; /* Для выравнивания блока по центру */
     transition: transform 0.3s ease;
     bottom: 0px;
+    transform: translateY(-3%); /* Сдвигаем на 10% вниз */
 }
 
 .credit-container:hover {

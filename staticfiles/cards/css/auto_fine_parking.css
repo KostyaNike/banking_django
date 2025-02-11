@@ -1,0 +1,81 @@
+.fine-check-container {
+    width: 500px; /* Ширина блока */
+    background-color: #292929; /* Тёмно-серый фон */
+    padding: 40px; /* Внутренние отступы */
+    border-radius: 12px;
+    text-align: left; /* Текст выравнивается по левому краю */
+    margin: 100px auto;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    position: relative;
+    margin-left: 600px;
+    margin-top: 150px;
+}
+
+.fine-check-title {
+    font-size: 22px; /* Размер заголовка */
+    margin-bottom: 15px;
+    color: #FFF; /* Белый цвет текста */
+    margin-left: 100px;
+}
+
+.fine-check-label {
+    font-size: 14px; /* Размер текста для лейблов */
+    display: block;
+    margin-bottom: 8px;
+    color: #FFF; /* Белый цвет текста */
+    margin-left: -150px;
+}
+
+.fine-check-input {
+    width: 90%; /* Ширина инпута */
+    padding: 15px; /* Внутренний отступ */
+    font-size: 16px; /* Размер шрифта */
+    border-radius: 6px;
+    border: none;
+    text-align: center; /* Центрирование текста внутри инпута */
+    background-color: #3A3A3A;
+    color: #FFF;
+    margin-left: -150px;
+}
+
+.fine-check-button {
+    width: 90%; /* Ширина кнопки */
+    padding: 10px; /* Внутренний отступ кнопки */
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: #FF5733;
+    color: white;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: 0.3s;
+    margin-left: -150px;
+}
+
+.fine-check-button:hover {
+    background-color: #E74C3C;
+}
+
+.fine-check-message {
+    margin-top: 15px;
+    font-size: 16px;
+    color: #4CAF50;
+}
+
+.back-button {
+    position: fixed;
+    top: 90px; /* Сдвигаем кнопку немного вниз */
+    left: 400px; /* Сдвигаем кнопку немного вправо */
+    background: none; /* Без фона */
+    color: #717171; /* Темно-серый цвет */
+    font-size: 20px; /* Увеличен размер текста */
+    font-weight: bold; /* Жирный стиль текста */
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: #007bff; /* Цвет при наведении */
+}

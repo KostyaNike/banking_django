@@ -194,30 +194,34 @@
 
 
 .services-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
+    display: grid; /* Используем grid */
+    grid-template-columns: repeat(4, 1fr); /* 2 кнопки в ряду */
+    gap: 15px 40px; /* Расстояние между кнопками */
+    position: relative;
+    left: 20px;
+    align-self: flex-start; /* Сдвигаем вниз, оставляя по центру */
+    top: 50%;
+    transform: translateY(10%); /* Сдвигаем на 10% вниз */
 }
 
 .service-button {
-    display: inline-block;
-    padding: 10px 15px;
-    font-size: 14px;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
     font-weight: bold;
-    color: #fff;
     text-decoration: none;
-    border-radius: 20px;
-    background: linear-gradient(45deg, var(--color-start), var(--color-end));
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-    flex-grow: 1;
-    flex-shrink: 0;
+    color: var(--color-start);
+    transition: 0.3s;
 }
 
 .service-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-decoration: underline;
+}
+
+.service-button i {
+    font-size: 24px;
+    margin-right: 10px;
+    color: var(--color-start);
 }
 
 .button-cards {
@@ -226,7 +230,7 @@
     text-decoration: none;
     position: relative;
     display: inline-block;
-    background: linear-gradient(45deg, #2e7d32, #a5d6a7);
+    background: linear-gradient(45deg, #227526, #49b44c);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: all 0.3s ease;
@@ -241,7 +245,7 @@
     bottom: 0;
     width: 100%;
     height: 2px;
-    background: linear-gradient(45deg, #2e7d32, #a5d6a7);
+    background: linear-gradient(45deg, #227526, #49b44c);
     transform: scaleX(0);
     transform-origin: right;
     transition: transform 0.3s ease;
@@ -545,7 +549,7 @@
 
 /* Элементы списка транзакций */
 .transaction-item {
-    background-color: #f5f6f3; /* Белый фон для каждого элемента */
+    background-color: #dedede; /* Белый фон для каждого элемента */
     margin-bottom: 20px; /* Отступ снизу */
     padding: 20px;
     border-radius: 8px; /* Округлые углы */
@@ -571,7 +575,7 @@
     flex-wrap: wrap; /* Позволяет переносить строки */
     gap: 15px;
     font-size: 16px;
-    color: #777;
+    color: #616161;
 }
 
 /* Сумма */
@@ -583,7 +587,7 @@
 /* Значения суммы и даты */
 .amount-value,
 .transaction-date-value {
-    color: #2ecc71;
+    color: #078a00;
 }
 
 /* Сообщение, если транзакции отсутствуют */

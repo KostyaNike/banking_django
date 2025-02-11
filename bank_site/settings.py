@@ -129,6 +129,10 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+if DEBUG:
+    import mimetypes
+    mimetypes.add_type("image/x-icon", ".ico", True)
+
 LOGIN_URL = '/auth/login/'
 
 LOGIN_REDIRECT_URL = 'cards'
