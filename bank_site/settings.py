@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'home',
     'site_auth',
     'money_trans',
+    'list_news',
 ]
 
 MIDDLEWARE = [

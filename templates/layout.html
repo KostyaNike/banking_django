@@ -22,13 +22,13 @@
     </div>
 
     <aside>
-        <img src="{% static 'home/img/logo.svg' %}" alt="Лого">
-        <span class="logo">Company</span>
+        <img src="{% static 'home/img/logo.jpeg' %}" alt="Лого">
+        <span class="logo">Bankfordel</span>
         <h3>Навігація</h3>
         <ul>
-            <a href="{% url 'home' %}"><li><i class="fas fa-home"></i> Банк </li></a>
+            <a href="/home/"><li><i class="fas fa-home"></i> Банк </li></a>
             <a href="/cards/"><li><i class="fas fa-address-card"></i> Картки </li></a>
-            <a href="{% url 'home' %}"><li><i class="fas fa-paper-plane"></i> Новини </li></a>
+            <a href="/news/"><li><i class="fas fa-paper-plane"></i> Новини </li></a>
         </ul>
         {% if request.user.is_authenticated %}
         {% else %}

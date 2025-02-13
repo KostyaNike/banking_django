@@ -204,24 +204,58 @@
     transform: translateY(10%); /* Сдвигаем на 10% вниз */
 }
 
+/* Основной стиль для кнопок */
 .service-button {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    font-size: 18px;
-    font-weight: bold;
+    background: var(--color-start);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 16px;
     text-decoration: none;
-    color: var(--color-start);
-    transition: 0.3s;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Эффект при наведении */
 .service-button:hover {
-    text-decoration: underline;
+    background: lighten(var(--color-start), 20%); /* Осветление кнопки на 20% */
+    transform: translateY(-5px); /* Подъем кнопки */
 }
 
+/* Дополнительные иконки и текст */
 .service-button i {
-    font-size: 24px;
     margin-right: 10px;
-    color: var(--color-start);
+}
+
+/* Применяем к стилям каждого элемента с переменной */
+.service-button:nth-child(1) {
+    --color-start: #8311ca; /* Поповнення мобільного */
+}
+
+.service-button:nth-child(2) {
+    --color-start: #ac1d1d; /* Кредит */
+}
+
+.service-button:nth-child(3) {
+    --color-start: #ef6c00; /* Авто */
+}
+
+.service-button:nth-child(4) {
+    --color-start: #5b5b5b; /* Закрити картку */
+}
+
+.service-button:nth-child(5) {
+    --color-start: #2e7d32; /* Банка накопичування */
+}
+
+.service-button:nth-child(6) {
+    --color-start: #1565c0; /* Страхування */
+}
+
+.service-button:nth-child(7) {
+    --color-start: #694f47; /* Поїзд */
 }
 
 .button-cards {

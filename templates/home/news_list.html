@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}Новини{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'home/css/news.css' %}">
+<div class="news-container" id="news-container">
+    <!-- Новости будут загружаться сюда -->
+</div>
+
+<div class="loading" id="loading">
+    Завантаження...
+</div>
+
+<!-- Кнопка обновления новостей -->
+<div class="refresh-button" onclick="loadNews()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <g fill="none" stroke="#fff" stroke-width="2">
+            <path d="M12 2v4l3-3l-3-3V5a7 7 0 1 1-7 7h1a6 6 0 1 0 6-6z"/>
+        </g>
+    </svg>
+</div>
+
+<script>
+    let offset = 0;
+    const limit = 9;
+
+    // Функция для загрузки новостей
+    function loadNews() {
+        const loadingElement = document.getElementById('loading');
+        loadingElement.style.display = 'block';
+
+        // Отправляем запрос на сервер для получения актуальных новостей
+        fetch(`/load_news/?offset=${offset}&limit=${limit}`)
+            .then(response => response.json())
+            .then(data => {
+                const newsContainer = document.getElementById('news-container');
+                
+                // Добавляем новые новости в контейнер
+                data.news.forEach(news => {
+                    const newsCard = document.createElement('div');
+                    newsCard.classList.add('news-card');
+                    newsCard.innerHTML = `
+                        <img src="${news.image_url}" alt="${news.title}">
+                        <div class="news-content">
+                            <h3>${news.title}</h3>
+                            <p>${news.description}</p>
+                            <div class="date">${news.published_at}</div>
+                            <a href="/news/${news.id}/" class="read-more">Детальніше</a>
+                        </div>
+                    `;
+                    newsContainer.appendChild(newsCard);
+                });
+
+                // Увеличиваем offset для загрузки следующих новостей
+                offset += limit;
+
+                loadingElement.style.display = 'none';
+            });
+    }
+
+    // Загружаем новости при загрузке страницы
+    document.addEventListener('DOMContentLoaded', loadNews);
+
+    // Загрузка новостей при прокрутке страницы
+    window.addEventListener('scroll', () => {
+        if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 100) {
+            loadNews();
+        }
+    });
+</script>
+{% endblock %}

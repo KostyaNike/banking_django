@@ -4,7 +4,57 @@
 {% block title %}Головна{% endblock %}
 
 {% block content %}
-<div class="features">
-    <h2>Информация о нашем банке</h2>
+<link rel="stylesheet" href="{% static 'home/css/home_bank.css' %}">
+
+<!-- Главный баннер -->
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Ласкаво просимо до нашого банку!</h1>
+        <p>Наш банк надає повний спектр фінансових послуг для бізнесу та приватних осіб. Ми гарантуємо безпеку ваших коштів, зручність операцій та найкращі умови для наших клієнтів.</p>
+    </div>
 </div>
-    {% endblock %}
+
+<!-- Секция услуг с изображениями -->
+<div class="services-section">
+    <div class="service-card">
+        <img src="https://example.com/credit-service.jpg" alt="Оформлення кредиту" class="service-image">
+        <h2>Оформлення кредитів</h2>
+        <p>Ми пропонуємо кредити на будь-які потреби, включаючи особисті, автокредити та кредити для бізнесу. Наші клієнти отримують найкращі умови для повернення кредиту з низькими відсотковими ставками та прозорими умовами.</p>
+    </div>
+    <div class="service-card">
+        <img src="https://example.com/transfer-service.jpg" alt="Легкі переводи" class="service-image">
+        <h2>Легкі переводи</h2>
+        <p>Наші послуги переведення коштів між користувачами є швидкими та безпечними. Ми пропонуємо найкращі комісії на ринку для вашої зручності.</p>
+    </div>
+    <div class="service-card">
+        <img src="https://example.com/fines-service.jpg" alt="Управління штрафами" class="service-image">
+        <h2>Управління штрафами</h2>
+        <p>Система швидкого перевірки та сплати штрафів для автомобілістів. Сплатити штрафи можна прямо через наш банківський інтерфейс без черг та додаткових витрат.</p>
+    </div>
+</div>
+
+<!-- Призыв к действию -->
+<div class="cta-section">
+    <h2>Насолоджуйтесь банківськими послугами без зайвих турбот!</h2>
+    <p>Наш банк працює для вашого комфорту і безпеки. Підключайтеся до нас сьогодні і почніть користуватися усіма перевагами наших фінансових послуг.</p>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const serviceCards = document.querySelectorAll('.service-card');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        serviceCards.forEach(card => {
+            observer.observe(card);
+        });
+    });
+</script>
+
+{% endblock %}

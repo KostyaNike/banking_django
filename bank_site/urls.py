@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', RedirectView.as_view(url='/home', permanent=True)),
     path('home/', include('home.urls')),
+    path('', include('list_news.urls')),
     path('auth/', include('site_auth.urls')),
     path('cards/', include('cards.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
