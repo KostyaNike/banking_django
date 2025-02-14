@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Туристичне страхування{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cards/css/insurance.css' %}">
+
+<a href="javascript:history.back()" class="back-button">← Назад</a>
+
+<div class="content-wrapper">
+    <div class="insurance-container">
+        <h2>Туристичне страхування</h2>
+        <p>Ціна: <strong>{{ insurance_price }} грн</strong></p>
+        <p>Ця страховка покриває медичні витрати, багаж, затримки рейсів та непередбачені ситуації під час подорожей.</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="insurance-comfirm">Оформити</button>
+        </form>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <p class="{{ message.tags }}">{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="footer-text">
+    *Страхування надається лише повнолітнім користувачам банку.
+</div>
+
+{% endblock %}

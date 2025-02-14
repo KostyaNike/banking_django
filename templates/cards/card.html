@@ -78,7 +78,7 @@
                 <a href="close-card" class="service-button" style="--color-start: #5b5b5b;">
                     <i class="fas fa-times-circle"></i> Закрити картку
                 </a>
-                <a href="#" class="service-button" style="--color-start: #2e7d32;">
+                <a href="banka" class="service-button" style="--color-start: #2e7d32;">
                     <i class="fas fa-piggy-bank"></i> Банка накопичування
                 </a>
                 <a href="insurance" class="service-button" style="--color-start: #1565c0;">
@@ -285,6 +285,38 @@
 
         // Показать полный номер на оборотной стороне
         cardNumberFullElement.textContent = cardNumber;
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Функция для копирования текста
+        function copyText(event) {
+            const textToCopy = event.target.innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Создание элемента с текстом "Скопійовано!"
+                let message = document.createElement("span");
+                message.classList.add("copy-message");
+                message.innerText = "Скопійовано!";
+                event.target.appendChild(message);
+
+                // Показываем сообщение
+                setTimeout(() => {
+                    message.style.opacity = "1";
+                }, 50);
+
+                // Удаляем сообщение через 3 секунды
+                setTimeout(() => {
+                    message.style.opacity = "0";
+                    setTimeout(() => message.remove(), 300);
+                }, 3000);
+            });
+        }
+
+        // Назначаем обработчик событий на все элементы с курсами валют
+        document.getElementById("exchangeRates").addEventListener("click", function (event) {
+            if (event.target.classList.contains("exchange-rate-item")) {
+                copyText(event);
+            }
+        });
     });
 </script>
 

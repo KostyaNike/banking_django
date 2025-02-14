@@ -691,8 +691,14 @@
     padding: 20px;
     background-color: #8a8a8a;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     margin-top: 20px;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+#rates:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
 }
 
 /* Стили для блока с курсами валют */
@@ -700,23 +706,48 @@
     background-color: #b7b7b7;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.12);
     margin-top: 20px;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.exchange-rates-block:hover {
+    box-shadow: 0 7px 12px rgba(0, 0, 0, 0.18);
+    transform: translateY(-3px);
 }
 
 /* Стили для каждого курса */
 .exchange-rate-item {
-    font-size: 18px;  /* Увеличиваем размер шрифта */
-    font-weight: 500; /* Полужирный шрифт */
+    font-size: 18px;
+    font-weight: 500;
     color: #333;
     margin-bottom: 12px;
     line-height: 1.5;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    transition: background 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+    position: relative; /* Для абсолютного позиционирования текста */
 }
 
 /* Эффект при наведении на курс */
 .exchange-rate-item:hover {
-    color: #007bff;  /* Синий цвет при наведении */
-    cursor: pointer;
+    color: #007bff;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Сообщение "Скопійовано!" */
+.copy-message {
+    position: absolute;
+    right: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #009c00;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .credit-info {

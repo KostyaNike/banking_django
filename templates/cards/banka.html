@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Банка накопичування{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cards/css/banka.css' %}">
+
+<a href="javascript:history.back()" class="back-button">← Назад</a>
+
+<div class="content-wrapper">
+    <div class="insurance-container">
+        <h2>Виберіть послугу нижче</h2>
+        <div class="insurance-options">
+            <a href="#" class="insurance-button">Відіслати на банку</a>
+            <div class="divider"></div>
+            <a href="#" class="insurance-button">Моя банка</a>
+            <div class="divider"></div>
+            <a href="open" class="insurance-button">Відкрити нову банку</a>
+        </div>
+    </div>
+</div>
+
+<div class="footer-text">
+    *Банка є зберігальним рахунком і не використовується для основних операцій
+</div>
+
+{% endblock %}

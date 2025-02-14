@@ -14,11 +14,43 @@
     <link rel="manifest" href="/site.webmanifest">
 </head>
 <body>
-    <!-- Кнопка переключения темы с анимацией -->
-    <div id="theme-toggle" class="theme-toggle-btn">
-        <div class="theme-toggle-slider"></div>
-        <i class="fas fa-moon moon-icon"></i>
-        <i class="fas fa-sun sun-icon"></i>
+    <!-- Кнопки переключения темы и выхода -->
+    <div class="header-buttons-container">
+        <!-- Кнопка переключения темы с анимацией -->
+        <div id="theme-toggle" class="theme-toggle-btn">
+            <div class="theme-toggle-slider"></div>
+            <i class="fas fa-moon moon-icon"></i>
+            <i class="fas fa-sun sun-icon"></i>
+        </div>
+
+        <!-- Кнопка Вихід (показывается только если пользователь авторизован) -->
+        {% if request.user.is_authenticated %}
+        <div id="exit-button" class="exit-btn">
+            Вихід
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Полоска разделения кнопок и остальной части хедера -->
+    <div class="header-separator"></div>
+
+    <!-- Модальное окно с подтверждением выхода -->
+    <div id="exit-modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ви впевнені що хочете вийти?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Ссылки вместо кнопок -->
+                    <a id="confirm-exit" href="#" class="btn btn-danger">Так, вийти</a>
+                    <a href="#" class="btn btn-secondary" data-dismiss="modal">Скасувати</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <aside>
@@ -42,6 +74,7 @@
     </main>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script>
         const themeToggleButton = document.getElementById('theme-toggle');
         const body = document.body;
@@ -63,6 +96,21 @@
             } else {
                 localStorage.setItem('theme', 'dark');
             }
+        });
+
+        // Открытие модального окна для выхода
+        const exitButton = document.getElementById('exit-button');
+        const exitModal = new bootstrap.Modal(document.getElementById('exit-modal'));
+
+        exitButton?.addEventListener('click', () => {
+            exitModal.show();
+        });
+
+        // Логика для ссылки "Так, вийти"
+        document.getElementById('confirm-exit')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Перенаправление на страницу выхода
+            window.location.href = 'http://127.0.0.1:8000/auth/logout';  // Указанный URL для выхода
         });
     </script>
 </body>

@@ -35,7 +35,7 @@ h2 {
 
 .insurance-button {
     display: block;
-    width: 100%;
+    width: 120%;
     padding: 15px; /* Увеличены отступы */
     margin: 12px 0;
     background: linear-gradient(45deg, rgb(0, 128, 4), rgb(144, 238, 150));

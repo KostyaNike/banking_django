@@ -7,6 +7,9 @@ import feedparser
 from .gtfs_processor import get_routes
 import re
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from .models import Banka
+from .forms import BankaForm
 
 def cards(request):
     # Получение всех карт, связанных с текущим пользователем
@@ -295,3 +298,73 @@ def credit_info(request, pk):
         "monthly_payment": monthly_payment,
         "credit_term": credit_term
     })
+
+@login_required
+def insurance_health(request, pk):
+    """Сторінка оформлення страхування здоров'я."""
+    card = get_object_or_404(BankCard, pk=pk, user=request.user)
+    insurance_price = Decimal(600)  # Стоимость страховки
+
+    if request.method == "POST":
+        if card.balance >= insurance_price:
+            # Списываем деньги
+            card.balance -= insurance_price
+            card.save()
+            messages.success(request, "Страховка здоров'я успішно оформлена!")
+        else:
+            messages.error(request, "Недостатньо коштів на карті!")
+
+    return render(request, "cards/insurance_health.html", {
+        "card": card,
+        "insurance_price": insurance_price,
+    })
+
+
+@login_required
+def insurance_touristic(request, pk):
+    """Сторінка оформлення туристичної страховки."""
+    card = get_object_or_404(BankCard, pk=pk, user=request.user)
+    insurance_price = Decimal(600)  # Стоимость страховки
+
+    if request.method == "POST":
+        if card.balance >= insurance_price:
+            # Списываем деньги
+            card.balance -= insurance_price
+            card.save()
+            messages.success(request, "Туристична страховка успішно оформлена!")
+        else:
+            messages.error(request, "Недостатньо коштів на карті!")
+
+    return render(request, "cards/insurance_touristic.html", {
+        "card": card,
+        "insurance_price": insurance_price,
+    })
+
+def open_banka(request, pk):
+    card = get_object_or_404(BankCard, pk=pk, user=request.user)
+    user = card.user  # Получаем пользователя, связанного с картой
+
+    if request.method == 'POST':
+        if hasattr(request.user, 'banka'):
+            messages.error(request, "У вас уже есть накопительная банка.")
+            return redirect('my')  # Перенаправление на страницу с деталями банки
+
+        form = BankaForm(request.POST)
+        if form.is_valid():
+            banka = form.save(commit=False)
+            banka.user = request.user
+            banka.save()
+            messages.success(request, "Накопительная банка успешно открыта!")
+            return redirect('my')  # Перенаправление на страницу с деталями банки
+    else:
+        form = BankaForm()
+
+    return render(request, 'cards/banka_open.html', {'form': form})
+
+def banka_detail(request):
+    try:
+        banka = request.user.banka  # Получаем банку, привязанную к текущему пользователю
+    except Banka.DoesNotExist:
+        banka = None
+
+    return render(request, 'cards/banka_my.html', {'banka': banka})

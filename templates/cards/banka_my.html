@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block title %}Моя накопительная банка{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cards/css/banka_my.css' %}">
+
+<h1>Информация о вашей накопительной банке</h1>
+
+{% if banka %}
+    <p><strong>Название:</strong> {{ banka.name }}</p>
+    <p><strong>Описание:</strong> {{ banka.description }}</p>
+    <p><strong>Баланс:</strong> {{ banka.balance }} грн</p>
+    <p><strong>Количество пополнений:</strong> {{ banka.deposit_count }}</p>
+    <p><strong>Дата открытия:</strong> {{ banka.opening_date }}</p>
+    <p><strong>Дата закрытия:</strong> {{ banka.closing_date }}</p>
+    <p><strong>Хеш-код:</strong> {{ banka.hash_code }}</p>
+{% else %}
+    <p>У вас нет накопительной банки. Вы можете открыть новую на странице <a href="{% url 'open_banka' %}">открытия банки</a>.</p>
+{% endif %}
+
+{% endblock %}

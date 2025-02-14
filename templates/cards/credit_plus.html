@@ -30,7 +30,7 @@
         <div class="current-credit">
             <h3 class="credit-header">Ваш поточний кредит</h3>
             {% if user.credit_balance > 0 %}
-                <p class="credit-info">Сума: <strong>{{ user.credit_balance }} грн</strong></p>
+                <p class="credit-term">Сума: <strong>{{ user.credit_balance }} грн</strong></p>
                 <p class="credit-info">Термін кредиту: <strong>{{ credit_term }} місяців</strong></p>
                 <p class="credit-info">Щомісячний платіж: <strong>{{ monthly_payment }} грн</strong></p>
                 <form method="post">
