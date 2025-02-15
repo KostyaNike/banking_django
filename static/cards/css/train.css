@@ -111,4 +111,23 @@ h2 {
     }
     100% {
         transform: rotate(-89deg);
+    }
+}
+
+.back-button {
+    position: fixed;
+    top: 90px; /* Сдвигаем кнопку немного вниз */
+    left: 400px; /* Сдвигаем кнопку немного вправо */
+    background: none; /* Без фона */
+    color: #717171; /* Темно-серый цвет */
+    font-size: 20px; /* Увеличен размер текста */
+    font-weight: bold; /* Жирный стиль текста */
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: #007bff; /* Цвет при наведении */
 }

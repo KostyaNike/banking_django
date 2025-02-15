@@ -25,6 +25,8 @@ urlpatterns = [
     path('<int:pk>/credit/', TemplateView.as_view(template_name="cards/credit.html"), name='credit'),
     path('<int:pk>/credit/info/', views.credit_info, name='credit_info'),
     path('<int:pk>/banka/', TemplateView.as_view(template_name="cards/banka.html"), name='banka'),
-    path('<int:pk>/banka/open', views.open_banka, name='open_banka'),  # Страница для открытия новой банки
-    path('<int:pk>/banka/my', views.banka_detail, name='banka_detail'),
+    path('<int:pk>/banka/open/', views.open_banka, name='open_banka'),# Страница для открытия новой банки
+    path('<int:pk>/banka/my/', views.banka_detail, name='banka_detail'),
+    path('<int:pk>/banka/send/', views.bank_transfer, name='bank_transfer'),
+    path('<int:pk>/banka/close/', views.close_banka, name='close_banka'),
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])

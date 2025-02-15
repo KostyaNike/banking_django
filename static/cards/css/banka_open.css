@@ -1,23 +1,146 @@
-/* Пример стилей для страницы */
+/* Контейнер для формы */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #ffffff;
+    padding: 10px;  /* Уменьшены отступы внутри контейнера */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;  /* Уменьшен размер блока */
+    height: auto;
+    max-height: none;
+    margin: 50px auto 20px 550px;
+}
+
+/* Заголовок */
+h1 {
+    font-size: 24px;  /* Уменьшен размер шрифта */
+    color: #2c3e50;
+    margin-bottom: 10px;  /* Уменьшены отступы между заголовком и формой */
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Стили для формы */
 form {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    padding-left: 15px;  /* Добавлен отступ слева для сдвига элементов */
+}
+
+/* Стили для параграфов */
+form p {
+    font-size: 16px;  /* Уменьшен размер шрифта */
+    color: #555;
+    line-height: 1.4;
+    margin-bottom: 5px;  /* Уменьшены отступы между полями */
+}
+
+/* Стили для полей ввода */
+input, textarea {
+    padding: 8px;  /* Уменьшены отступы внутри полей */
+    font-size: 14px;  /* Уменьшен размер шрифта */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;  /* Уменьшены отступы между полями */
     background-color: #f9f9f9;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    width: 70%;
 }
 
-form button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
+/* Стили при фокусе на поле */
+input:focus, textarea:focus {
+    border-color: #2980b9;
+    background-color: #ffffff;
+    outline: none;
+}
+
+/* Стили для кнопки */
+button {
+    background-color: #3498db;
     color: white;
+    font-size: 16px;  /* Уменьшен размер шрифта */
+    padding: 10px 18px;  /* Уменьшены отступы внутри кнопки */
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 120%;
+    max-width: 180px;  /* Уменьшен размер кнопки */
+    margin-top: 10px;  /* Уменьшены отступы сверху */
 }
 
-form button:hover {
-    background-color: #45a049;
+button:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+
+button:focus {
+    outline: none;
+}
+
+/* Стили для предупреждения, если банк уже создан */
+p.warning {
+    font-size: 18px;  /* Уменьшен размер шрифта */
+    color: #e74c3c;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 15px;  /* Уменьшен отступ сверху */
+}
+
+.p-class {
+    font-size: 18px;  /* Уменьшен размер шрифта */
+    color: #e74c3c;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 15px;  /* Уменьшен отступ сверху */
+}
+
+.back-button {
+    position: fixed;
+    top: 90px; /* Сдвигаем кнопку немного вниз */
+    left: 400px; /* Сдвигаем кнопку немного вправо */
+    background: none; /* Без фона */
+    color: #717171; /* Темно-серый цвет */
+    font-size: 20px; /* Увеличен размер текста */
+    font-weight: bold; /* Жирный стиль текста */
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: #007bff; /* Цвет при наведении */
+}
+
+.container-close {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #ffffff;
+    padding: 10px;  /* Уменьшены отступы внутри контейнера */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;  /* Уменьшен размер блока */
+    height: auto;
+    max-height: none;
+    margin: 300px auto 20px 550px;
+}
+
+.footer-text {
+    position: fixed;
+    bottom: 20px; /* Сдвигаем текст немного вверх от нижнего края */
+    left: 59%; /* Центрируем текст по горизонтали */
+    transform: translateX(-50%); /* Дополнительное центрирование по горизонтали */
+    color: #535353; /* Темно-серый цвет текста */
+    font-size: 14px;
+    text-align: center;
 }

@@ -6,5 +6,98 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'cards/css/banka_send.css' %}">
 
+<a href="javascript:history.back()" class="back-button">← Назад</a>
+
+<div class="transfer-container">
+    <h1>Переказати гроші</h1>
+
+    <form id="transfer-form" method="POST">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_transfer_type">Тип переказу:</label>
+            {{ form.transfer_type }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_amount">Сума:</label>
+            {{ form.amount }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_hash_code">Хеш-код чужої банки:</label>
+            {{ form.hash_code }}
+        </div>
+
+        <button type="submit" class="submit-btn">Відправити</button>
+    </form>
+
+    <!-- Сообщение о том, что хеш не заполнен, если выбрана чужая банка -->
+    <div id="hash-error-message" class="error-message" style="display: none;">
+        Будь ласка, введіть хеш-код чужої банки, якщо ви вибрали переказ на чужу банку.
+    </div>
+
+    <!-- Сообщение о неправильном хеш-коде -->
+    <div id="wrong-hash-message" class="error-message" style="display: none;">
+        Невірний хеш-код чужої банки. Будь ласка, перевірте введений хеш.
+    </div>
+
+    <!-- Сообщение об ошибке -->
+    <div id="error-message" class="error-message" style="display: none;"></div>
+        {% if messages %}
+            <div class="alert-messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    <!-- Сообщение об успешном переводе -->
+    <div id="success-message" class="success-message" style="display: none;">
+        Переклад успішно виконано!
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var transferTypeField = document.getElementById("id_transfer_type");
+        var hashCodeField = document.getElementById("id_hash_code").closest("div");
+        var hashCodeInput = document.getElementById("id_hash_code");
+        var errorMessage = document.getElementById("error-message");
+        var successMessage = document.getElementById("success-message");
+        var hashErrorMessage = document.getElementById("hash-error-message");
+        var wrongHashMessage = document.getElementById("wrong-hash-message");
+
+        // Обработчик изменения типа перевода
+        transferTypeField.addEventListener("change", function() {
+            if (this.value == "self") {
+                hashCodeField.style.display = "none";  // Скрываем поле хеш-кода для перевода на свою банку
+            } else {
+                hashCodeField.style.display = "block";  // Показываем поле хеш-кода для перевода на чужую банку
+            }
+        });
+
+        // Обработчик отправки формы
+        document.getElementById("transfer-form").addEventListener("submit", function(event) {
+            // Сначала скрываем старые сообщения
+            errorMessage.style.display = "none";
+            successMessage.style.display = "none";
+            hashErrorMessage.style.display = "none";  // Скрываем сообщение об ошибке для хеш-кода
+            wrongHashMessage.style.display = "none";  // Скрываем сообщение об ошибке для неправильного хеш-кода
+
+            // Если выбран перевод на чужую банку, проверяем заполнен ли хеш-код
+            if (transferTypeField.value == "other" && hashCodeInput.value.trim() === "") {
+                event.preventDefault();  // Отменяем отправку формы
+                hashErrorMessage.style.display = "block";  // Показываем сообщение об ошибке для хеш-кода
+            }
+        });
+    });
+</script>
+
+<div class="footer-text">
+    *Банка є зберігальним рахунком і не використовується для основних операцій
+</div>
 
 {% endblock %}

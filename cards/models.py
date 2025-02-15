@@ -11,6 +11,7 @@ class Banka(models.Model):
     description = models.TextField()
     name = models.CharField(max_length=255)
     hash_code = models.CharField(max_length=12, unique=True, default=uuid.uuid4().hex[:12])
+    goal = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     def __str__(self):
         return f'{self.name} ({self.user.email})'

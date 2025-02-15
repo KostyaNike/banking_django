@@ -10,6 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .models import Banka
 from .forms import BankaForm
+from .forms import BankTransferForm
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 def cards(request):
     # Получение всех карт, связанных с текущим пользователем
@@ -342,29 +344,81 @@ def insurance_touristic(request, pk):
 
 def open_banka(request, pk):
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
-    user = card.user  # Получаем пользователя, связанного с картой
 
     if request.method == 'POST':
-        if hasattr(request.user, 'banka'):
-            messages.error(request, "У вас уже есть накопительная банка.")
-            return redirect('my')  # Перенаправление на страницу с деталями банки
-
         form = BankaForm(request.POST)
         if form.is_valid():
             banka = form.save(commit=False)
             banka.user = request.user
             banka.save()
-            messages.success(request, "Накопительная банка успешно открыта!")
-            return redirect('my')  # Перенаправление на страницу с деталями банки
     else:
         form = BankaForm()
 
     return render(request, 'cards/banka_open.html', {'form': form})
 
-def banka_detail(request):
+def banka_detail(request, pk):
+    card = get_object_or_404(BankCard, pk=pk, user=request.user)
     try:
         banka = request.user.banka  # Получаем банку, привязанную к текущему пользователю
     except Banka.DoesNotExist:
         banka = None
 
     return render(request, 'cards/banka_my.html', {'banka': banka})
+
+@login_required
+def bank_transfer(request, pk):
+    # Получаем карточку пользователя и его накопительную банку
+    user_card = get_object_or_404(BankCard, pk=pk, user=request.user)
+    user_banka = Banka.objects.filter(user=request.user).first()  # Получаем банку пользователя, если она есть
+
+    if request.method == 'POST':
+        form = BankTransferForm(request.POST)
+        if form.is_valid():
+            transfer_type = form.cleaned_data['transfer_type']
+            amount = form.cleaned_data['amount']
+            hash_code = form.cleaned_data['hash_code'] if transfer_type == 'other' else None
+
+            # Проверка, хватает ли средств на основном балансе
+            if user_card.balance < amount:
+                messages.error(request, "Недостатньо коштів на основному рахунку.")
+                return render(request, 'cards/banka_send.html', {'form': form, 'user_banka': user_banka})
+
+            # Пополнение своей банки
+            if transfer_type == 'self':
+                if user_banka:
+                    user_banka.balance += amount
+                    user_banka.save()
+                    user_card.balance -= amount  # Снимаем деньги с основного баланса
+                    user_card.save()
+                    messages.success(request, f"Вашу банку поповнено на {amount} грн.")
+
+            # Отправка на чужую банку
+            elif transfer_type == 'other':
+                # Проверка на наличие хеш-кода для отправки на чужую банку
+                if not hash_code:
+                    messages.error(request, "Будь ласка, введіть хеш-код чужої банки.")
+                    return render(request, 'cards/banka_send.html', {'form': form, 'user_banka': user_banka})
+
+                # Проверяем наличие чужой банки по хеш-коду
+                try:
+                    other_banka = Banka.objects.get(hash_code=hash_code)
+                    other_banka.balance += amount
+                    user_card.balance -= amount  # Снимаем деньги с основного баланса
+                    user_card.save()
+                    other_banka.save()
+                    messages.success(request, f"Ви відправили {amount} грн на чужу банку.")
+                except Banka.DoesNotExist:
+                    messages.error(request, "Банку з таким хеш-кодом не знайдено.")
+
+            return render(request, 'cards/banka_send.html', {'form': form, 'user_banka': user_banka})
+
+    else:
+        form = BankTransferForm()
+
+    return render(request, 'cards/banka_send.html', {'form': form, 'user_banka': user_banka})
+
+def close_banka(request, pk):
+    message = None
+    banka = Banka.objects.get(id=pk)
+    banka.delete()  # Удаляем накопительную банку
+    return redirect('cards:cards')
