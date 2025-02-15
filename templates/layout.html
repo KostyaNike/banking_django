@@ -54,8 +54,12 @@
     </div>
 
     <aside>
-        <img src="{% static 'home/img/logo.jpeg' %}" alt="Лого">
-        <span class="logo">Bankfordel</span>
+        <span class="logo">
+            <a href="/home/">
+                <img src="{% static 'images/logo.jpg' %}" alt="Bankfordel Logo" class="logo-img">
+            </a>
+            Bankfordel
+        </span>
         <h3>Навігація</h3>
         <ul>
             <a href="/home/"><li><i class="fas fa-home"></i> Банк </li></a>

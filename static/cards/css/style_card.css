@@ -198,7 +198,7 @@
     grid-template-columns: repeat(4, 1fr); /* 2 кнопки в ряду */
     gap: 15px 40px; /* Расстояние между кнопками */
     position: relative;
-    left: 20px;
+    left: auto;
     align-self: flex-start; /* Сдвигаем вниз, оставляя по центру */
     top: 50%;
     transform: translateY(10%); /* Сдвигаем на 10% вниз */

@@ -78,18 +78,17 @@ def transfer(request, pk):
                 card.balance -= amount
                 card.save()
                 # Уведомление об успешной транзакции
-                messages.success(request, 'Успешный перевод!')
+                messages.success(request, 'Успішний переказ!')
             else:
-                messages.error(request, 'Недостатньо коштів для перевода.')
+                messages.error(request, 'Недостатньо коштів для переказу.')
         else:
-            messages.error(request, 'Нельзя перевести деньги самому себе.')
+            messages.error(request, 'Не можна переказати гроші самому собі.')
     return render(request, 'cards/transfer.html', {'card': card})
 
 def delete_card(request, pk):
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
     if request.method == 'POST':
         card.delete()
-        messages.success(request, "Картка успішно відалена.")
         return redirect('cards:cards')  # Перенаправление на список карт
     return render(request, 'cards/close_card.html', {'card': card})
 
@@ -139,7 +138,7 @@ def auto_parking(request, pk):
 
         # Проверка формата номера
         if not re.match(car_number_pattern, car_number):
-            error_message = 'Номер автомобиля должен быть в формате XX0000XX (например, AB1234CD).'
+            error_message = 'Номер автомобіля має бути у форматі XX0000XX (например, AB1234CD).'
             return render(request, 'cards/auto_parking.html', {'card': card, 'error_message': error_message})
 
         # Стоимость парковки
@@ -166,15 +165,15 @@ def auto_parking(request, pk):
                 card.balance -= parking_fee
                 card.save()
 
-                success_message = 'Оплата прошла успешно!'
+                success_message = 'Оплата пройшла успішно!'
                 return render(request, 'cards/auto_parking.html', {'card': card, 'success_message': success_message})
 
             except Exception as e:
-                error_message = f'Ошибка транзакции: {str(e)}'
+                error_message = f'Помилка транзакції: {str(e)}'
                 return render(request, 'cards/auto_parking.html', {'card': card, 'error_message': error_message})
 
         else:
-            error_message = 'Недостаточно средств на карте.'
+            error_message = 'Недостатньо коштів на карті.'
             return render(request, 'cards/auto_parking.html', {'card': card, 'error_message': error_message})
 
     return render(request, 'cards/auto_parking.html', {'card': card})
@@ -254,10 +253,6 @@ def credit_view(request, pk):
                 request.session["credit_term"] = 0
                 request.session["monthly_payment"] = None
 
-                messages.success(request, "Ваш кредит успішно погашений!")
-            else:
-                messages.error(request, "У вас немає активного кредиту.")
-
             return redirect("cards:add_credit", pk=pk)
 
     return render(request, "cards/credit_plus.html", {
@@ -286,11 +281,6 @@ def credit_info(request, pk):
                 # Очищаем данные о кредите в сессии
                 request.session["credit_term"] = 0
                 request.session["monthly_payment"] = None
-
-                messages.success(request, "Ваш кредит успішно погашений!")
-
-            else:
-                messages.error(request, "У вас немає активного кредиту.")
 
             return redirect("cards:credit_info", pk=pk)
 
@@ -351,6 +341,7 @@ def open_banka(request, pk):
             banka = form.save(commit=False)
             banka.user = request.user
             banka.save()
+        return redirect('cards:cards')
     else:
         form = BankaForm()
 
