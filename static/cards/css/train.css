@@ -13,7 +13,7 @@ html, .container {
     text-align: center;
 }
 
-h1 {
+.h1-style {
     font-size: 30px;
     color: #787878;
     margin-bottom: 30px;

@@ -1,26 +1,27 @@
 {% extends 'layout.html' %}
-
-{% block title %}Вход{% endblock %}
+{% load static %}
+{% block title %}Вхід{% endblock %}
 
 {% block content %}
-<div class="features">
-    <h1>Вход</h1>
-    <form method="post">
+<link rel="stylesheet" href="{% static 'auth/css/login.css' %}">
+<div class="login-container">
+    <h1 class="login-title">Вхід до акаунта</h1>
+    <form method="post" class="login-form">
         {% csrf_token %}
-        <p>
-            <label for="id_username">Ім'я та призвіще:</label>
-            <input type="username" name="username" required="" id="id_username">
-        </p>
-        <p>
-            <label for="id_email">Email:</label>
-            <input type="email" name="email" autofocus="" maxlength="320" required="" id="id_email">
-        </p>
-        <p>
-            <label for="id_password">Пароль:</label>
-            <input type="password" name="password" required="" id="id_password">
-        </p>
-        <button type="submit">Увійти</button>
+        <div class="input-group">
+            <label for="id_username" class="input-label">Ім'я та призвище:</label>
+            <input type="username" name="username" required id="id_username" class="input-field" placeholder="Ваше ім'я та призвище">
+        </div>
+        <div class="input-group">
+            <label for="id_email" class="input-label">Email:</label>
+            <input type="email" name="email" autofocus maxlength="320" required id="id_email" class="input-field" placeholder="Введіть ваш email">
+        </div>
+        <div class="input-group">
+            <label for="id_password" class="input-label">Пароль:</label>
+            <input type="password" name="password" required id="id_password" class="input-field" placeholder="Ваш пароль">
+        </div>
+        <button type="submit" class="submit-button">Увійти</button>
     </form>
-    <p>Ще не створили рахунок? <a href="/auth/register/">Зареєструватися</a></p>
+    <p class="register-link"><b>Ще не створили рахунок? </b><a href="/auth/register/">Зареєструйтеся!</a></p>
 </div>
-    {% endblock %}
+{% endblock %}

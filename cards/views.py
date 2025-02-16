@@ -14,7 +14,10 @@ from .forms import BankTransferForm
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 def cards(request):
-    # Получение всех карт, связанных с текущим пользователем
+    if not request.user.is_authenticated:
+        return render(request, "cards/cards.html")  # Вернем страницу с сообщением
+
+    # Если пользователь авторизован, получаем его карты
     cards = BankCard.objects.filter(user=request.user)
     context = {
         "cards": cards
@@ -22,6 +25,8 @@ def cards(request):
     return render(request, "cards/cards.html", context)
 
 def card(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/card.html")
     # Получение конкретной карты пользователя
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
     transactions = Transaction.objects.filter(card=card).order_by("-date")
@@ -32,6 +37,8 @@ def card(request, pk):
     return render(request, "cards/card.html", context)
 
 def mobile_service(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/mobile.html")
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
     if request.method == 'POST':
         phone_number = request.POST['phone_number']
@@ -56,6 +63,8 @@ def mobile_service(request, pk):
     return render(request, 'cards/mobile.html', {'card': card})
 
 def transfer(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/transfer.html")
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
     if request.method == 'POST':
         card_number = request.POST['card_number']
@@ -86,6 +95,8 @@ def transfer(request, pk):
     return render(request, 'cards/transfer.html', {'card': card})
 
 def delete_card(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/close_card.html")
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
     if request.method == 'POST':
         card.delete()
@@ -114,6 +125,8 @@ def get_train_routes_gtfs(departure, arrival, date):
     return routes
 
 def search_trains(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/train.html")
     # Получаем карту по pk
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
     
@@ -127,6 +140,8 @@ def search_trains(request, pk):
     return render(request, "cards/train.html", {"routes": routes, 'card': card})
 
 def auto_parking(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/auto_parking.html")
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
 
     if request.method == 'POST':
@@ -179,6 +194,8 @@ def auto_parking(request, pk):
     return render(request, 'cards/auto_parking.html', {'card': card})
 
 def check_auto_fines(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/auto_fine_parking.html")
     message = None
 
     if request.method == 'POST':
@@ -195,6 +212,8 @@ def check_auto_fines(request, pk):
     return render(request, 'cards/auto_fine_parking.html', {'message': message})
 
 def check_auto_fines_pdr(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/auto_pdr.html")
     message = None
 
     if request.method == 'POST':
@@ -212,6 +231,8 @@ def check_auto_fines_pdr(request, pk):
 
 @login_required
 def credit_view(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/credit_plus.html")
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
     user = request.user
 
@@ -264,6 +285,8 @@ def credit_view(request, pk):
 
 @login_required
 def credit_info(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/credit_close.html")
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
     user = card.user  # Получаем пользователя, связанного с картой
 
@@ -293,6 +316,8 @@ def credit_info(request, pk):
 
 @login_required
 def insurance_health(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/insurance_health.html")
     """Сторінка оформлення страхування здоров'я."""
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
     insurance_price = Decimal(600)  # Стоимость страховки
@@ -314,6 +339,8 @@ def insurance_health(request, pk):
 
 @login_required
 def insurance_touristic(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/insurance_touristic.html")
     """Сторінка оформлення туристичної страховки."""
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
     insurance_price = Decimal(600)  # Стоимость страховки
@@ -333,6 +360,8 @@ def insurance_touristic(request, pk):
     })
 
 def open_banka(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/banka_open.html")
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
 
     if request.method == 'POST':
@@ -348,6 +377,8 @@ def open_banka(request, pk):
     return render(request, 'cards/banka_open.html', {'form': form})
 
 def banka_detail(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/banka_my.html")
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
     try:
         banka = request.user.banka  # Получаем банку, привязанную к текущему пользователю
@@ -358,6 +389,8 @@ def banka_detail(request, pk):
 
 @login_required
 def bank_transfer(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/banka_send.html")
     # Получаем карточку пользователя и его накопительную банку
     user_card = get_object_or_404(BankCard, pk=pk, user=request.user)
     user_banka = Banka.objects.filter(user=request.user).first()  # Получаем банку пользователя, если она есть
@@ -409,6 +442,8 @@ def bank_transfer(request, pk):
     return render(request, 'cards/banka_send.html', {'form': form, 'user_banka': user_banka})
 
 def close_banka(request, pk):
+    if not request.user.is_authenticated:
+        return render(request, "cards/card.html")
     message = None
     banka = Banka.objects.get(id=pk)
     banka.delete()  # Удаляем накопительную банку

@@ -6,42 +6,51 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'cards/css/add_credit.css' %}">
 
-<a href="{% url 'cards:card' pk=card.pk %}" class="back-button">← Назад</a>
+{% if user.is_authenticated %}
+    <a href="{% url 'cards:card' pk=card.pk %}" class="back-button">← Назад</a>
 
-<div class="credit-wrapper">
-    <div class="credit-container">
-        <h2 class="credit-header">Оформлення кредиту</h2>
+    <div class="credit-wrapper">
+        <div class="credit-container">
+            <h2 class="credit-header">Оформлення кредиту</h2>
 
-        <form method="post" class="credit-form">
-            {% csrf_token %}
-            <label for="credit-amount" class="credit-form-label">Сума кредиту:</label>
-            <input type="number" id="credit-amount" name="credit_amount" class="credit-input-field" min="500" max="50000" step="500" required>
-        
-            <label for="credit-term" class="credit-form-label">Термін кредиту (місяців):</label>
-            <select id="credit-term" name="credit_term" class="credit-input-field">
-                <option value="6">6 місяців (15%)</option>
-                <option value="12">12 місяців (20%)</option>
-                <option value="24">24 місяці (20%)</option>
-            </select>
-        
-            <button type="submit" name="take_credit" class="credit-submit-button">Оформити кредит</button>
-        </form>
-        
-        <div class="current-credit">
-            <h3 class="credit-header">Ваш поточний кредит</h3>
-            {% if user.credit_balance > 0 %}
-                <p class="credit-term">Сума: <strong>{{ user.credit_balance }} грн</strong></p>
-                <p class="credit-info">Термін кредиту: <strong>{{ credit_term }} місяців</strong></p>
-                <p class="credit-info">Щомісячний платіж: <strong>{{ monthly_payment }} грн</strong></p>
-                <form method="post">
-                    {% csrf_token %}
-                    <button type="submit" name="repay_credit" class="credit-repay-button">Погасити кредит</button>
-                </form>
-            {% else %}
-                <p class="credit-info">Жодний кредит на вашому рахунку.</p>
-            {% endif %}
+            <form method="post" class="credit-form">
+                {% csrf_token %}
+                <label for="credit-amount" class="credit-form-label">Сума кредиту:</label>
+                <input type="number" id="credit-amount" name="credit_amount" class="credit-input-field" min="500" max="50000" step="500" required>
+            
+                <label for="credit-term" class="credit-form-label">Термін кредиту (місяців):</label>
+                <select id="credit-term" name="credit_term" class="credit-input-field">
+                    <option value="6">6 місяців (15%)</option>
+                    <option value="12">12 місяців (20%)</option>
+                    <option value="24">24 місяці (20%)</option>
+                </select>
+            
+                <button type="submit" name="take_credit" class="credit-submit-button">Оформити кредит</button>
+            </form>
+            
+            <div class="current-credit">
+                <h3 class="credit-header">Ваш поточний кредит</h3>
+                {% if user.credit_balance > 0 %}
+                    <p class="credit-term">Сума: <strong>{{ user.credit_balance }} грн</strong></p>
+                    <p class="credit-info">Термін кредиту: <strong>{{ credit_term }} місяців</strong></p>
+                    <p class="credit-info">Щомісячний платіж: <strong>{{ monthly_payment }} грн</strong></p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="repay_credit" class="credit-repay-button">Погасити кредит</button>
+                    </form>
+                {% else %}
+                    <p class="credit-info">Жодний кредит на вашому рахунку.</p>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
+{% else %}
+    <div style="display: flex; align-items: center; justify-content: center; height: 100vh; text-align: left;">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" alt="Хрест" style="width: 50px; height: 50px; margin-right: 15px;">
+        <h1 style="font-size: 30px; max-width: 500px; line-height: 1.4;">
+            Ой лихо, схоже вам спочатку потрібно авторизуватися... 🫣
+        </h1>
+    </div>
+{% endif %}
 
 {% endblock %}

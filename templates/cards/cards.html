@@ -6,17 +6,25 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'cards/css/cards-style.css' %}">
 
-<div class="card-list-container">
-    <div class="card-list-title">Ваші картки</div>
-    <div class="card-list">
-        {% for card in cards %}
-            <div class="card-item">
-                <span class="card-number">Номер картки: {{ card.card_number }}</span>
-                <a href="{% url 'cards:card' pk=card.pk %}" class="view-button">Переглянути</a>
-            </div>
-        {% endfor %}
+{% if not user.is_authenticated %}
+    <div style="display: flex; align-items: center; justify-content: center; height: 100vh; text-align: left;">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" alt="Хрест" style="width: 50px; height: 50px; margin-right: 15px;">
+        <h1 style="font-size: 30px; max-width: 500px; line-height: 1.4;">
+            Ой лихо, схоже вам спочатку потрібно авторизуватися... 🫣
+        </h1>
     </div>
-</div>
-
+{% else %}
+    <div class="card-list-container">
+        <div class="card-list-title">Ваші картки</div>
+        <div class="card-list">
+            {% for card in cards %}
+                <div class="card-item">
+                    <span class="card-number">Номер картки: {{ card.card_number }}</span>
+                    <a href="{% url 'cards:card' pk=card.pk %}" class="view-button">Переглянути</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
 
 {% endblock %}

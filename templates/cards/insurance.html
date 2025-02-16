@@ -6,21 +6,30 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'cards/css/insurance.css' %}">
 
-<a href="javascript:history.back()" class="back-button">← Назад</a>
+{% if user.is_authenticated %}
+    <a href="javascript:history.back()" class="back-button">← Назад</a>
 
-<div class="content-wrapper">
-    <div class="insurance-container">
-        <h2>Виберіть тип страхування</h2>
-        <div class="insurance-options">
-            <a href="health" class="insurance-button">Страхування здоров'я</a>
-            <div class="divider"></div>
-            <a href="touristic" class="insurance-button">Туристичне страхування</a>
+    <div class="content-wrapper">
+        <div class="insurance-container">
+            <h2>Виберіть тип страхування</h2>
+            <div class="insurance-options">
+                <a href="health" class="insurance-button">Страхування здоров'я</a>
+                <div class="divider"></div>
+                <a href="touristic" class="insurance-button">Туристичне страхування</a>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="footer-text">
-    *Страхування надається лише повнолітнім користувачам банку.
-</div>
+    <div class="footer-text">
+        *Страхування надається лише повнолітнім користувачам банку.
+    </div>
+{% else %}
+    <div style="display: flex; align-items: center; justify-content: center; height: 100vh; text-align: left;">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" alt="Хрест" style="width: 50px; height: 50px; margin-right: 15px;">
+        <h1 style="font-size: 30px; max-width: 500px; line-height: 1.4;">
+            Ой лихо, схоже вам спочатку потрібно авторизуватися... 🫣
+        </h1>
+    </div>
+{% endif %}
 
 {% endblock %}
