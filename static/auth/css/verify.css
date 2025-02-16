@@ -1,0 +1,92 @@
+/* Контейнер для всей формы */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;  /* Устанавливаем ограничение по ширине */
+    margin: 160px auto; /* Центрируем форму на экране */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Заголовок формы */
+.login-title {
+    font-size: 24px;
+    color: #4073a5;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-left: 30%;
+    width: 120%;
+}
+
+/* Группа для каждого поля ввода */
+.input-group {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+/* Метки для полей ввода */
+.input-label {
+    font-size: 14px;
+    color: #0087db;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Поля ввода */
+.input-field {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+/* Стили при фокусе на поле ввода */
+.input-field:focus {
+    border-color: #2980b9;
+    outline: none;
+}
+
+/* Кнопка отправки */
+.submit-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    color: white;
+    background-color: #2980b9;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Эффект при наведении на кнопку */
+.submit-button:hover {
+    background-color: #1f6fa3;
+}
+
+/* Ссылка на регистрацию */
+.register-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #7a7a7a;
+}
+
+/* Стили для ссылки */
+.register-link a {
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}

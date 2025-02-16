@@ -106,6 +106,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {
+        'NAME': 'site_auth.validators.MaxLengthPasswordValidator',  # Указываем правильный путь
+        'OPTIONS': {'max_length': 20},  # Устанавливаем максимальную длину пароля
+    },
 ]
 
 

@@ -1,15 +1,22 @@
 {% extends 'layout.html' %}
+{% load static %}
 
-{% block title %}Верифікація{% endblock %}
+{% block title %}
+Верифікація
+{% endblock %}
 
 {% block content %}
-<div class="features">
-    <h1>Введіть код нижче який вам прийшов на ваш email:</h1>
-    <form method="post">
+<link rel="stylesheet" href="{% static 'auth/css/verify.css' %}">
+<div class="login-container">
+    <h1 class="login-title">Введіть код нижче, який вам прийшов на ваш email:</h1>
+    <form method="post" class="login-form">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Підтвердити</button>
+        <div class="input-group">
+            <label for="id_code" class="input-label">Код верифікації:</label>
+            <input type="text" name="code" id="id_code" class="input-field" placeholder="Введіть код верифікації" required>
+        </div>
+        <button type="submit" class="submit-button">Підтвердити</button>
     </form>
-    <p>Не отримали пароль? Попробуйте зареєструватися знову.</p>
+    <p class="register-link"><b>Не отримали пароль? </b><a href="/auth/register/">Попробуйте зареєструватися знову</a></p>
 </div>
-    {% endblock %}
+{% endblock %}
