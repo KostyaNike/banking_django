@@ -632,6 +632,7 @@
     margin-top: 30px;
 }
 
+
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
     .transaction-tab-content {
@@ -656,8 +657,55 @@
     }
 }
 
+/* Контейнер для списка транзакций и блока общей суммы */
+.transactions-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
 
+/* Блок списка транзакций */
+.tab-content {
+    flex: 1;
+}
 
+/* Блок общей суммы и количества */
+.transactions-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+/* Блок общей суммы и количества */
+.transactions-summary {
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 220px;
+    max-width: 250px;
+    text-align: center;
+}
+
+/* Список транзакций занимает оставшееся пространство */
+.transaction-list {
+    flex: 1;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Стили для блока суммы */
+.transactions-summary p {
+    font-size: 16px;
+    color: #333;
+    margin: 8px 0;
+}
+
+.transactions-summary span {
+    font-weight: bold;
+}
 
 .scroll-button {
     display: none;

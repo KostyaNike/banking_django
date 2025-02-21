@@ -92,23 +92,35 @@
 
         <div class="tab-content" id="transactions" style="display: none;">
             {% if transactions %}
-                <ul class="transaction-list">
-                    {% for transaction in transactions %}
-                        <li class="transaction-item">
-                            <div class="transaction-header">
-                                <strong class="transaction-recipient">Отримувач:</strong> <span class="recipient-name">{{ transaction.recipient.username }}</span>
-                            </div>
-                            <div class="transaction-details">
-                                <strong class="transaction-amount">Сума:</strong> <span class="amount-value"><b>{{ transaction.amount }} </b>₴</span>
-                                <strong class="transaction-date">Дата:</strong> <span class="transaction-date-value"><b>{{ transaction.date }}</b></span>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
+                <div class="transactions-wrapper">
+                    <!-- Блок общей суммы слева -->
+                    <div class="transactions-summary">
+                        <p><strong>Загальна сума:</strong> <span>{{ total_amount|default:"0" }} ₴</span></p>
+                        <p><strong>Кількість транзакцій:</strong> <span>{{ total_count|default:"0" }}</span></p>
+                    </div>
+                    
+                    <!-- Список транзакций -->
+                    <ul class="transaction-list">
+                        {% for transaction in transactions %}
+                            <li class="transaction-item">
+                                <div class="transaction-header">
+                                    <strong class="transaction-recipient">Отримувач:</strong> 
+                                    <span class="recipient-name">{{ transaction.recipient.username }}</span>
+                                </div>
+                                <div class="transaction-details">
+                                    <strong class="transaction-amount">Сума:</strong> 
+                                    <span class="amount-value"><b>{{ transaction.amount }} </b>₴</span>
+                                    <strong class="transaction-date">Дата:</strong> 
+                                    <span class="transaction-date-value"><b>{{ transaction.date }}</b></span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             {% else %}
                 <p class="no-transactions-message">Транзакції відсутні.</p>
             {% endif %}
-        </div>
+        </div>   
 
         <div class="tab-content" id="rates" style="display: none;">
             <h2>Курс</h2>

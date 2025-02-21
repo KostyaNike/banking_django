@@ -9,12 +9,19 @@
 {% if user.is_authenticated %}
     <a href="javascript:history.back()" class="back-button">← Назад</a>
 
-    <div class="unique-container">
-        <h2 class="unique-header">Ваше авто</h2>
-        <div class="unique-button-container">
-            <a href="auto_parking" class="unique-action-button" id="parking-button"><b>Парковка</b></a>
-            <a href="auto_fine" class="unique-action-button" id="fines-button"><b>Штрафи та порушення</b></a>
+    <div class="content-wrapper">
+        <div class="insurance-container">
+            <h2>Ваше авто</h2>
+            <div class="insurance-options">
+                <a href="auto_parking" class="insurance-button">Парковка</a>
+                <div class="divider"></div>
+                <a href="auto_fine" class="insurance-button">Штрафи та порушення</a>
+            </div>
         </div>
+    </div>
+
+    <div class="footer-text">
+        *Послуги для вашого авто можливі лише з дійсним номером авто.
     </div>
 {% else %}
     <div style="display: flex; align-items: center; justify-content: center; height: 100vh; text-align: left;">
