@@ -48,7 +48,7 @@
                     <hr class="divider">
                     <div class="action-buttons">
                         <!-- Заменили <button> на <a> -->
-                        <a href="#" class="replenish-button">Поповнити рахунок +</a>
+                        <a href="add" class="replenish-button">Поповнити рахунок +</a>
                         <div class="button-divider"></div>
                         <a href="transfer" class="send-button">Відправити</a>
                     </div>
@@ -104,7 +104,7 @@
                         {% for transaction in transactions %}
                             <li class="transaction-item">
                                 <div class="transaction-header">
-                                    <strong class="transaction-recipient">Отримувач:</strong> 
+                                    <strong class="transaction-recipient">Відправник:</strong> 
                                     <span class="recipient-name">{{ transaction.recipient.username }}</span>
                                 </div>
                                 <div class="transaction-details">

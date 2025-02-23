@@ -12,3 +12,11 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"Transaction {self.amount} from card {self.card.card_number} to {self.recipient.username}"
+
+class PayPalWallet(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="paypal_wallets")
+    name = models.CharField(max_length=100)
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    def __str__(self):
+        return f"{self.name} - {self.balance} грн"

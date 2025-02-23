@@ -29,4 +29,5 @@ urlpatterns = [
     path('<int:pk>/banka/my/', views.banka_detail, name='banka_detail'),
     path('<int:pk>/banka/send/', views.bank_transfer, name='bank_transfer'),
     path('<int:pk>/banka/close/', views.close_banka, name='close_banka'),
+    path('<int:pk>/add/', views.add_balance, name='add_balance'),
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])

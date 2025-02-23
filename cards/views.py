@@ -12,6 +12,8 @@ from .models import Banka
 from .forms import BankaForm
 from .forms import BankTransferForm
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.db.models import Sum
+from django.core.exceptions import ValidationError
 
 def cards(request):
     if not request.user.is_authenticated:
@@ -30,11 +32,18 @@ def card(request, pk):
     # Получение конкретной карты пользователя
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
     transactions = Transaction.objects.filter(card=card).order_by("-date")
+
+    total_amount = transactions.aggregate(total=Sum('amount'))['total'] or Decimal(0)
+    total_count = transactions.count()
+
     context = {
         "card": card,
-        "transactions": transactions
+        "transactions": transactions,
+        "total_amount": total_amount,
+        "total_count": total_count,
     }
     return render(request, "cards/card.html", context)
+    
 
 def mobile_service(request, pk):
     if not request.user.is_authenticated:
@@ -448,3 +457,46 @@ def close_banka(request, pk):
     banka = Banka.objects.get(id=pk)
     banka.delete()  # Удаляем накопительную банку
     return redirect('cards:cards')
+
+def add_balance(request, pk):
+    if not request.user.is_authenticated:
+        return redirect("login")  # Если пользователь не авторизован, перенаправляем на страницу входа
+
+    # Получаем карту по pk
+    card = get_object_or_404(BankCard, pk=pk, user=request.user)
+
+    if request.method == 'POST':
+        try:
+            # Получаем номер карты PayPal и сумму пополнения из формы
+            paypal_card_number = request.POST.get('paypal_card_number', '').strip()
+            amount = Decimal(request.POST['amount'])
+
+            # Проверка, что номер карты содержит 16 символов
+            if len(paypal_card_number) != 16 or not paypal_card_number.isdigit():
+                raise ValidationError("Номер картки PayPal має містити 16 цифр.")
+
+            if amount <= 0:
+                raise ValueError("Сума має бути правильною.")
+
+            # Пополнение баланса
+            card.balance += amount
+            card.save()
+
+            # Создание транзакции
+            # recipient - это текущий пользователь, так как он получает деньги
+            transaction = Transaction.objects.create(
+                card=card,
+                recipient=request.user,  # recipient = текущий пользователь
+                amount=amount,
+                transaction_type="deposit"
+            )
+
+            messages.success(request, f"На рахунок картки {card.card_number} зачіслено {amount} грн.")
+
+        except ValueError as e:
+            messages.error(request, f"Помилка: {e}")
+        except ValidationError as e:
+            messages.error(request, f"Помилка: {e}")
+
+    # Отправляем данные в шаблон
+    return render(request, "cards/add_balance.html", {"card": card})

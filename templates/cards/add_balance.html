@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Поповнення рахунку{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cards/css/add_balance.css' %}">
+
+<a href="javascript:history.back()" class="back-button">← Назад</a>
+
+<div class="content-wrapper">
+    <div class="mobile-recharge-container">
+        <h1 class="mobile-page-header">Поповнення рахунку</h1>
+        <form method="post" class="mobile-recharge-form">
+            {% csrf_token %}
+            <h3>Номер поповнення: </h3>
+            <p>{{ card.card_number }}</p>
+
+            <label for="paypal_card_number" class="mobile-form-label">Введіть ваш номер картки PayPal:</label>
+            <input type="text" name="paypal_card_number" id="paypal_card_number" required class="mobile-input-field" pattern="\d{16}" title="Номер картки PayPal повинен містити 16 цифр">
+
+            <label for="amount" class="mobile-form-label">Введіть суму поповнення:</label>
+            <input type="number" name="amount" id="amount" step="0.01" required class="mobile-input-field">
+
+            <button type="submit" class="mobile-submit-button">Підтвердити</button>
+        </form>
+
+        {% if messages %}
+            <div class="mobile-messages-container">
+                {% for message in messages %}
+                    <p class="mobile-message {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
