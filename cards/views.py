@@ -8,7 +8,7 @@ from .gtfs_processor import get_routes
 import re
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from .models import Banka
+from .models import Banka, UserCashback
 from .forms import BankaForm
 from .forms import BankTransferForm
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
@@ -48,27 +48,46 @@ def card(request, pk):
 def mobile_service(request, pk):
     if not request.user.is_authenticated:
         return render(request, "cards/mobile.html")
+    
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
+    user_cashback = get_object_or_404(UserCashback, user=request.user)
+    
     if request.method == 'POST':
         phone_number = request.POST['phone_number']
         amount = Decimal(request.POST['amount'])
+        
         # Проверка, достаточно ли средств на карте
         if amount <= card.balance:
-            # Создание новой транзакции
-            transaction = Transaction.objects.create(
-                card=card,
-                recipient=request.user,  # Текущий пользователь как получатель
-                amount=amount,
-                transaction_type='recharge',
-                phone_number=phone_number
-            )
-            # Обновление баланса карты
-            card.balance -= amount
-            card.save()
-            # Уведомление об успешной транзакции
-            messages.success(request, 'Поповнення успішне!')
+            # Рассчитываем 2% от суммы пополнения
+            cashback_amount = amount * Decimal(0.02)
+            
+            # Проверяем, не превышает ли сумма кешбека максимальный лимит
+            if user_cashback.get_total_cashback() + cashback_amount <= 5160:
+                # Добавляем кешбек в категорию "Поповнення мобільного"
+                user_cashback.mobile_recharge += cashback_amount
+                user_cashback.save()
+                
+                # Создание новой транзакции
+                transaction = Transaction.objects.create(
+                    card=card,
+                    recipient=request.user,  # Текущий пользователь как получатель
+                    amount=amount,
+                    transaction_type='recharge',
+                    phone_number=phone_number
+                )
+                
+                # Обновление баланса карты
+                card.balance -= amount
+                card.save()
+                
+                # Уведомление об успешной транзакции
+                messages.success(request, f'Поповнення успішне! Ви поповнили мобільний на {amount} грн. Ваш кешбек: {round(cashback_amount, 2)} грн.')
+            else:
+                # Если кешбек превысит лимит, уведомляем пользователя
+                messages.warning(request, 'Максимальний ліміт кешбеку досягнуто. Поповнення не здійснено.')
         else:
             messages.error(request, 'Недостатньо коштів для поповнення.')
+    
     return render(request, 'cards/mobile.html', {'card': card})
 
 def transfer(request, pk):
@@ -151,7 +170,9 @@ def search_trains(request, pk):
 def auto_parking(request, pk):
     if not request.user.is_authenticated:
         return render(request, "cards/auto_parking.html")
+    
     card = get_object_or_404(BankCard, pk=pk, user=request.user)
+    user_cashback = get_object_or_404(UserCashback, user=request.user)
 
     if request.method == 'POST':
         city = request.POST.get('city')
@@ -177,20 +198,36 @@ def auto_parking(request, pk):
                     defaults={"first_name": "Автомобільна", "last_name": "служба"}
                 )
 
-                # Создаём транзакцию
-                transaction = Transaction.objects.create(
-                    card=card,
-                    recipient=auto_service_user,  # Передаём объект пользователя
-                    amount=parking_fee,
-                    transaction_type='auto_parking'
-                )
+                # Рассчитываем 2% кешбека от стоимости парковки
+                cashback_amount = parking_fee * Decimal(0.02)
 
-                # Обновляем баланс карты
-                card.balance -= parking_fee
-                card.save()
+                # Проверяем, не превышает ли сумма кешбека максимальный лимит
+                if user_cashback.get_total_cashback() + cashback_amount <= 5160:
+                    # Добавляем кешбек в категорию "Парковка"
+                    user_cashback.parking += cashback_amount
+                    user_cashback.save()
 
-                success_message = 'Оплата пройшла успішно!'
-                return render(request, 'cards/auto_parking.html', {'card': card, 'success_message': success_message})
+                    # Создаём транзакцию
+                    transaction = Transaction.objects.create(
+                        card=card,
+                        recipient=auto_service_user,  # Передаём объект пользователя
+                        amount=parking_fee,
+                        transaction_type='auto_parking'
+                    )
+
+                    # Обновляем баланс карты
+                    card.balance -= parking_fee
+                    card.save()
+
+                    # Сообщение об успешной оплате и кешбеке
+                    messages.success(request, f'Оплата пройшла успішно! Ви оплатили парковку на {parking_fee} грн. Ваш кешбек: {round(cashback_amount, 2)} грн.')
+                    messages.success(request, f'Ви успішно придбали абонемент на парковку, ваш кешбек: {round(cashback_amount, 2)} грн.')
+
+                else:
+                    # Если кешбек превысит лимит, уведомляем пользователя
+                    messages.warning(request, 'Максимальний ліміт кешбеку досягнуто. Парковка не була оплачена.')
+                
+                return render(request, 'cards/auto_parking.html', {'card': card})
 
             except Exception as e:
                 error_message = f'Помилка транзакції: {str(e)}'
@@ -500,3 +537,51 @@ def add_balance(request, pk):
 
     # Отправляем данные в шаблон
     return render(request, "cards/add_balance.html", {"card": card})
+
+def cashback(request, pk):
+    user = request.user  # Получаем текущего пользователя
+
+    # Получаем кешбэк для пользователя или создаем новый, если его нет
+    try:
+        cashback_data = UserCashback.objects.get(user=user)
+    except UserCashback.DoesNotExist:
+        cashback_data = UserCashback.objects.create(user=user, max_cashback=5160)
+
+    cashback_percentage = cashback_data.get_cashback_percentage()
+
+    # Проверим, что данные выводятся
+    print(cashback_data)  # Добавьте этот вывод для отладки
+
+    return render(request, "cards/cashback.html", {
+        "cashback_data": cashback_data,
+        "cashback_percentage": cashback_percentage
+    })
+
+@login_required
+def remove_cashback(request):
+    if request.method == 'POST':
+        user_cashback = UserCashback.objects.get(user=request.user)
+        card = BankCard.objects.get(user=request.user)
+
+        total_cashback = user_cashback.get_total_cashback()
+
+        if total_cashback > 0:
+            # Переводим кешбек на баланс карты
+            card.balance += total_cashback
+            card.save()
+
+            # Обнуляем кешбек
+            user_cashback.cafe_restaurants = 0
+            user_cashback.kids_stores = 0
+            user_cashback.e_scooters = 0
+            user_cashback.cinemas = 0
+            user_cashback.transport = 0
+            user_cashback.mobile_recharge = 0
+            user_cashback.parking = 0
+            user_cashback.save()
+
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False})
+
+    return JsonResponse({'success': False})

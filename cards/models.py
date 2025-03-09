@@ -15,3 +15,36 @@ class Banka(models.Model):
 
     def __str__(self):
         return f'{self.name} ({self.user.email})'
+    
+from django.db import models
+from django.conf import settings
+
+class UserCashback(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="cashback")  # Связь с пользователем
+    cafe_restaurants = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Кафе та ресторани
+    kids_stores = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Дитячі магазини
+    e_scooters = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Електросамокати
+    cinemas = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Кінотеатри
+    transport = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Проїзд
+    mobile_recharge = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Поповнення мобільного
+    parking = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Парковка
+    max_cashback = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Максимальный кешбэк
+
+    def get_total_cashback(self):
+        return (
+            self.cafe_restaurants +
+            self.kids_stores +
+            self.e_scooters +
+            self.cinemas +
+            self.transport +
+            self.mobile_recharge +
+            self.parking
+        )
+
+    def get_cashback_percentage(self):
+        if self.max_cashback > 0:
+            return (self.get_total_cashback() / self.max_cashback) * 100
+        return 0
+
+    def __str__(self):
+        return f"Cashback for {self.user.email}"
