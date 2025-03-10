@@ -26,6 +26,8 @@ def cards(request):
     }
     return render(request, "cards/cards.html", context)
 
+from decimal import Decimal, ROUND_DOWN
+
 def card(request, pk):
     if not request.user.is_authenticated:
         return render(request, "cards/card.html")
@@ -34,13 +36,15 @@ def card(request, pk):
     transactions = Transaction.objects.filter(card=card).order_by("-date")
 
     total_amount = transactions.aggregate(total=Sum('amount'))['total'] or Decimal(0)
-    total_count = transactions.count()
+    total_amount = total_amount.quantize(Decimal('0.01'), rounding=ROUND_DOWN)  # Округление до 2 знаков
+
+    total_count = Decimal(transactions.count()).quantize(Decimal('0.01'), rounding=ROUND_DOWN)  # Округление до 2 знаков
 
     context = {
         "card": card,
         "transactions": transactions,
         "total_amount": total_amount,
-        "total_count": total_count,
+        "total_count": total_count,  # Теперь округлено до 2 знаков
     }
     return render(request, "cards/card.html", context)
     

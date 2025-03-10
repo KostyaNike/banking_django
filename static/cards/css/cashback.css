@@ -1,0 +1,194 @@
+.cashback-container {
+    top: 50px;
+    width: 600px;
+    left: 39%; /* Немного влево */
+    padding: 25px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background: #f7f7f7;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.5s ease-in-out;
+    position: relative;
+}
+
+/* Анимация появления контейнера */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    text-align: center;
+    font-size: 26px;
+    color: #222;
+    margin-bottom: 30px;
+}
+
+h3 {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Прогресс-бар */
+.progress-bar-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00a881, #007760);
+    transition: width 0.6s ease-in-out;
+    animation: fillGrow 1s ease-in-out;
+}
+
+/* Анимация заполнения */
+@keyframes fillGrow {
+    from { width: 0; }
+    to { width: var(--progress-width, 0%); }
+}
+
+.progress-text {
+    position: absolute;
+    top: -25px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.progress-left { left: 0; color: #444; }
+.progress-right { right: 0; color: #444; }
+
+/* Категории */
+.category-list {
+    margin-top: 10px;
+    animation: slideIn 0.7s ease-in-out;
+}
+
+/* Анимация появления категорий */
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-15px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.category {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: #f1f1f1;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    transition: background 0.4s ease, transform 0.3s ease;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+/* Левый текст "2%" */
+.category::before {
+    content: "2%";
+    position: absolute;
+    left: 10px;
+    font-size: 14px;
+    color: #666;
+    font-weight: bold;
+}
+
+/* Отступ для названия категории */
+.category span {
+    margin-left: 35px; /* Чтобы текст не накладывался на "2%" */
+    color: #333; /* Тёмно-серый цвет */
+}
+
+.category:hover {
+    background: #e3eaf5;
+    transform: scale(1.02);
+}
+
+/* Цвета для категорий */
+.category:nth-child(odd) {
+    background: #f9f9f9;
+}
+
+.category:nth-child(even) {
+    background: #ececec;
+}
+
+strong {
+    color: #007760;
+}
+
+/* Кнопка "Зняти все" */
+.remove-button {
+    padding: 8px 15px;
+    border-radius: 5px;
+    background: #00a881;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease, transform 0.2s ease;
+}
+
+.remove-button:hover {
+    background: #007760;
+    transform: scale(1.05);
+}
+
+/* Анимация появления сообщения */
+.hidden {
+    display: none;
+}
+
+#success-message {
+    margin-top: 15px;
+    padding: 12px;
+    background: #d9f5e1;
+    color: #007760;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: bold;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: successAppear 0.5s ease-out forwards;
+}
+
+/* Плавное появление сообщения */
+@keyframes successAppear {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ошибка авторизации */
+.auth-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    flex-direction: column;
+}
+
+.auth-error img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 15px;
+}
+
+.auth-error h1 {
+    font-size: 22px;
+    color: #d32f2f;
+}

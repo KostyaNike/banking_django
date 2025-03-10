@@ -5,112 +5,9 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'cards/css/mobile.css' %}">
+<link rel="stylesheet" href="{% static 'cards/css/cashback.css' %}">
 
 {% if user.is_authenticated %}
-    <style>
-        .cashback-container {
-            width: 700px;
-            position: absolute;
-            top: 50%;
-            left: 58%;
-            transform: translate(-50%, -50%);
-            padding: 30px;
-            border: 1px solid #ccc;
-            border-radius: 12px;
-            background-color: #e9e9e9;
-            box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.15);
-        }
-        .progress-bar-container {
-            position: relative;
-            width: 100%;
-            margin-bottom: 15px;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 25px;
-            background-color: #ddd;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background-color: #008871;
-            width: {{ cashback_percentage }}%;
-        }
-        .progress-text {
-            position: absolute;
-            top: -25px;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        .progress-left {
-            left: 0;
-            color: #d32f2f;
-        }
-        .progress-right {
-            right: 0;
-            color: #d32f2f;
-        }
-        .category {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #ddd;
-            font-weight: bold;
-            color: #ff9800;
-            font-size: 18px;
-        }
-        .category .percentage {
-            font-size: 14px;
-            color: #757575; /* Серый цвет */
-        }
-        h2, h3 {
-            color: #008871;
-        }
-        h2 {
-            margin-bottom: 15px;
-            margin-bottom: 60px; /* Отступ под заголовком "Ваш кешбек" */
-        }
-        p {
-            color: #333;
-            font-size: 18px;
-        }
-        strong {
-            color: #d32f2f;
-        }
-        .back-button {
-            position: fixed;
-            top: 90px;
-            left: 400px;
-            background: none;
-            color: #717171;
-            font-size: 20px;
-            font-weight: bold;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        .back-button:hover {
-            color: #007bff;
-        }
-        .remove-button {
-            background-color: transparent;
-            color: #008871;
-            font-weight: bold;
-            padding: 1px 5px;
-            border: 1px solid #008871;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: color 0.3s ease, border-color 0.3s ease;
-        }
-        .remove-button:hover {
-            color: #fff;
-            background-color: #008871;
-            border-color: #008871;
-        }
-    </style>
-
     <a href="javascript:history.back()" class="back-button">← Назад</a>
 
     <div class="cashback-container">
@@ -120,7 +17,7 @@
             <span class="progress-text progress-left">{{ cashback_data.get_total_cashback }} грн</span>
             <span class="progress-text progress-right">5160.00 грн</span>
             <div class="progress-bar">
-                <div class="progress-fill"></div>
+                <div class="progress-fill" style="width: {{ cashback_percentage }}%;"></div>
             </div>
         </div>
 
@@ -128,71 +25,79 @@
             <button class="remove-button" id="remove-cashback-btn">Зняти все</button>
         </h3>
 
-        <div class="category">
-            <span><span class="percentage">2%</span> Кафе та ресторани</span>
-            <span><strong>{{ cashback_data.cafe_restaurants }} грн</strong></span>
-        </div>
-        <div class="category">
-            <span><span class="percentage">2%</span> Дитячі магазини</span>
-            <span><strong>{{ cashback_data.kids_stores }} грн</strong></span>
-        </div>
-        <div class="category">
-            <span><span class="percentage">2%</span> Електросамокати</span>
-            <span><strong>{{ cashback_data.e_scooters }} грн</strong></span>
-        </div>
-        <div class="category">
-            <span><span class="percentage">2%</span> Кінотеатри</span>
-            <span><strong>{{ cashback_data.cinemas }} грн</strong></span>
-        </div>
-        <div class="category">
-            <span><span class="percentage">2%</span> Проїзд</span>
-            <span><strong>{{ cashback_data.transport }} грн</strong></span>
-        </div>
-        <div class="category">
-            <span><span class="percentage">2%</span> Поповнення мобільного</span>
-            <span><strong>{{ cashback_data.mobile_recharge }} грн</strong></span>
-        </div>
-        <div class="category">
-            <span><span class="percentage">2%</span> Парковка</span>
-            <span><strong>{{ cashback_data.parking }} грн</strong></span>
+        <div class="category-list">
+            <div class="category">
+                <span>Кафе та ресторани</span>
+                <span><strong>{{ cashback_data.cafe_restaurants }} грн</strong></span>
+            </div>
+            <div class="category">
+                <span>Дитячі магазини</span>
+                <span><strong>{{ cashback_data.kids_stores }} грн</strong></span>
+            </div>
+            <div class="category">
+                <span>Електросамокати</span>
+                <span><strong>{{ cashback_data.e_scooters }} грн</strong></span>
+            </div>
+            <div class="category">
+                <span>Кінотеатри</span>
+                <span><strong>{{ cashback_data.cinemas }} грн</strong></span>
+            </div>
+            <div class="category">
+                <span>Проїзд</span>
+                <span><strong>{{ cashback_data.transport }} грн</strong></span>
+            </div>
+            <div class="category">
+                <span>Поповнення мобільного</span>
+                <span><strong>{{ cashback_data.mobile_recharge }} грн</strong></span>
+            </div>
+            <div class="category">
+                <span>Парковка</span>
+                <span><strong>{{ cashback_data.parking }} грн</strong></span>
+            </div>
         </div>
 
-        <!-- Место для сообщения об успешном снятии кешбека -->
-        <div id="success-message" style="color: #008871; display: none;">
+        <div id="success-message" class="hidden">
             <p>Ви успішно зняли весь кешбек на вашу картку!</p>
         </div>
-
     </div>
 
 {% else %}
-    <div style="display: flex; align-items: center; justify-content: center; height: 100vh; text-align: left;">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" alt="Хрест" style="width: 50px; height: 50px; margin-right: 15px;">
-        <h1 style="font-size: 30px; max-width: 500px; line-height: 1.4; color: #d32f2f;">
-            Ой лихо, схоже вам спочатку потрібно авторизуватися... 🫣
-        </h1>
+    <div class="auth-error">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" alt="Хрест">
+        <h1>Ой лихо, схоже вам спочатку потрібно авторизуватися... 🫣</h1>
     </div>
 {% endif %}
 
 <script>
-    document.getElementById('remove-cashback-btn').addEventListener('click', function () {
-        fetch("{% url 'cards:remove_cashback' %}", {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}'
-            },
-            body: new URLSearchParams()
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Показать сообщение, что кешбек снят
-                document.getElementById('success-message').style.display = 'block';
-                // Скрыть кнопку, если кешбек был успешно снят
-                document.getElementById('remove-cashback-btn').style.display = 'none';
-            } else {
-                alert('Щось пішло не так. Спробуйте пізніше.');
-            }
+    document.addEventListener("DOMContentLoaded", function () {
+        const removeButton = document.getElementById("remove-cashback-btn");
+        const successMessage = document.getElementById("success-message");
+
+        removeButton.addEventListener("click", function () {
+            fetch("{% url 'cards:remove_cashback' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    successMessage.classList.remove("hidden");
+                    removeButton.style.display = "none";
+                    animateCashbackReset();
+                } else {
+                    alert("Щось пішло не так. Спробуйте пізніше.");
+                }
+            });
         });
+
+        function animateCashbackReset() {
+            const progressBar = document.querySelector(".progress-fill");
+            progressBar.style.transition = "width 0.5s ease-in-out";
+            progressBar.style.width = "0%";
+        }
     });
 </script>
+
 {% endblock %}
