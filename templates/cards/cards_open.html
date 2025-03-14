@@ -1,0 +1,92 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Банка накопичення{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cards/css/cards_open.css' %}">
+
+{% if user.is_authenticated %}
+    <a href="javascript:history.back()" class="back-button">← Назад</a>
+
+    <h1 class="form-header">Відкриття нового рахунку</h1> <!-- Текст над формой -->
+
+    <!-- Новый блок с информацией -->
+    <div class="info-block">
+        <p>Щоб відкрити новий банківський рахунок, нам потрібно, щоб Ви заповнили форму нижче. Нам також потрібно переконатися в тому, що Вам є 18. Вся інормація буде надсилатися менеджеру на перевірку, після чого ми зв'яжемося з Вами по номеру телефону.</p>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="account-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="first_name">Ім'я</label>
+            <input type="text" id="first_name" name="first_name" required>
+        </div>
+        <div class="form-group">
+            <label for="last_name">Призвище</label>
+            <input type="text" id="last_name" name="last_name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="phone_number">Номер телефону</label>
+            <input type="text" id="phone_number" name="phone_number" required>
+        </div>
+        <div class="form-group">
+            <label for="account_type">Тип рахунку</label>
+            <select id="account_type" name="account_type" required>
+                <option value="personal">Особистий</option>
+                <option value="business">Для бізнесу</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="birth_date">Дата народження</label>
+            <input type="date" id="birth_date" name="birth_date" required>
+        </div>
+        <div class="form-group">
+            <label for="workplace">Місце роботи</label>
+            <input type="text" id="workplace" name="workplace" required>
+        </div>
+        <div class="form-group">
+            <label for="position">Посада</label>
+            <input type="text" id="position" name="position" required>
+        </div>
+        <div class="form-group">
+            <label for="monthly_income">Середній місячний дохід</label>
+            <input type="number" id="monthly_income" name="monthly_income" required>
+        </div>
+        <div class="form-group">
+            <label for="document">Прикріпити документ</label>
+            <div class="file-upload-wrapper">
+                <input type="file" id="document" name="document" accept=".pdf,.doc,.docx,.jpg,.png" required onchange="updateFileName()">
+                <span id="file-name">Немає вибраного файлу</span>
+            </div>
+            <p style="color: #4a4a4a;"><b>Прикріпіть офіційний документ на дозвіл на наявність більше ніж 1 рахунку.</b></p>
+        </div>
+        <div class="form-group">
+            <label for="comment">Коментар</label>
+            <textarea id="comment" name="comment" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Відправити</button>
+    </form>
+
+{% else %}
+    <div style="display: flex; align-items: center; justify-content: center; height: 100vh; text-align: left;">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" alt="Хрест" style="width: 50px; height: 50px; margin-right: 15px;">
+        <h1 style="font-size: 30px; max-width: 500px; line-height: 1.4;">
+            Ой лихо, схоже вам спочатку потрібно авторизуватися... 🫣
+        </h1>
+    </div>
+{% endif %}
+
+{% endblock %}
+
+<script>
+    function updateFileName() {
+        const fileInput = document.getElementById('document');
+        const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : 'Немає вибраного файлу';
+        document.getElementById('file-name').textContent = fileName;
+    }
+</script>

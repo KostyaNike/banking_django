@@ -32,4 +32,5 @@ urlpatterns = [
     path('<int:pk>/add/', views.add_balance, name='add_balance'),
     path('<int:pk>/cashback/', views.cashback, name='cashback'),
     path('remove_cashback/', views.remove_cashback, name='remove_cashback'),
+    path('new/', views.open_account, name='open_account'),
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])

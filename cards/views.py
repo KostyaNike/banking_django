@@ -9,8 +9,7 @@ import re
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .models import Banka, UserCashback
-from .forms import BankaForm
-from .forms import BankTransferForm
+from .forms import BankaForm, BankTransferForm, BankAccountForm
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.db.models import Sum
 from django.core.exceptions import ValidationError
@@ -589,3 +588,15 @@ def remove_cashback(request):
             return JsonResponse({'success': False})
 
     return JsonResponse({'success': False})
+
+def open_account(request):
+    if request.method == 'POST':
+        form = BankAccountForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Обработка данных формы, например, сохранение в базу данных
+            # Пример: save form data to model or redirect to confirmation page
+            return redirect('success_page')  # Перенаправление на страницу успеха
+    else:
+        form = BankAccountForm()
+    
+    return render(request, 'cards/cards_open.html', {'form': form})

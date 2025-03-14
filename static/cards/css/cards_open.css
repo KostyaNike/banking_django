@@ -1,0 +1,158 @@
+/* Стили для кнопки назад */
+.back-button {
+    position: fixed;
+    top: 90px;
+    left: 400px;
+    background: none;
+    color: #717171;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: #007bff;
+}
+
+.account-form {
+    width: 80%; /* Делаем форму чуть компактнее */
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    left: 10%; /* Смещаем форму немного вправо */
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-header {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left; /* Выравниваем текст по левому краю */
+    margin-bottom: 20px; /* Отступ снизу, чтобы отделить от формы */
+    margin-left: 750px; /* Добавляем отступ слева, чтобы сдвинуть вправо */
+    color: #ababab;
+}
+
+label {
+    font-size: 16px;
+    color: #333;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+textarea {
+    resize: none; /* Запрещаем изменение размера поля комментариев */
+}
+
+button.submit-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Стиль для кнопки выбора файла */
+.file-upload-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+input[type="file"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f7f7f7;
+}
+
+#file-name {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #333;
+    font-style: italic;
+}
+
+/* Дополнительные стили для кнопки */
+input[type="file"]:hover {
+    background-color: #e6e6e6;
+}
+
+/* Новый блок с информацией */
+.info-block {
+    margin-bottom: 20px; /* Отступ снизу, чтобы отделить от формы */
+    text-align: left;
+    width: 80%; /* Делаем форму чуть компактнее */
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    left: 10%;/* Выравниваем текст по левому краю */
+}
+
+.info-block p {
+    font-weight: bold;
+    color: #4a4a4a; /* Темно-серый цвет текста */
+    margin: 0;
+}
+
+/* Стили для кнопки выбора файла */
+.file-upload-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+input[type="file"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#file-name {
+    margin-left: 10px;
+    font-size: 14px;
+    font-style: italic;
+}
+
+button.submit-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.submit-btn:hover {
+    background-color: #0056b3;
+}
