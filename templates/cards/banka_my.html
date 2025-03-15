@@ -7,52 +7,134 @@
 <link rel="stylesheet" href="{% static 'cards/css/banka_my.css' %}">
 
 {% if user.is_authenticated %}
-    <a href="javascript:history.back()" class="back-button">← Назад</a>
+    <a href="{% url 'cards:banka' pk=request.resolver_match.kwargs.pk %}" class="back-button">← Назад</a>
 
     <div class="container">
-        <h1>Інформація про вашу накопичувальну банку</h1>
+        <!-- Блок с информацией о банке -->
+        <div class="banka-info-block">
+            <h1>Інформація про Вашу накопичувальну банку</h1>
 
-        {% if banka %}
-            <div class="banka-info">
-                <p><strong>Назва:</strong> {{ banka.name }}</p>
-                <p><strong>Опис:</strong> {{ banka.description }}</p>
-                <p><strong>Ціль накопичування:</strong> {{ banka.goal }} грн</p>
-                <p><strong>Баланс:</strong> {{ banka.balance }} грн</p>
-                <p><strong>Кількість поповнень:</strong> {{ banka.deposit_count }}</p>
-                <p><strong>Дата відкриття:</strong> {{ banka.opening_date }}</p>
-                {% if banka.closing_date %}
-                    <p><strong>Дата зачинення:</strong> {{ banka.closing_date }}</p>
-                {% endif %}
-                <p><strong>Хеш-код:</strong> {{ banka.hash_code }}</p>
+            {% if banka %}
+                <div class="banka-info">
+                    <p><strong>Назва:</strong> {{ banka.name }}</p>
+                    <p><strong>Опис:</strong> {{ banka.description }}</p>
+                    <p><strong>Ціль накопичування:</strong> {{ banka.goal }} грн</p>
+                    <p><strong>Баланс:</strong> <span id="balance-text">{{ banka.balance }}</span> грн</p>
+                    <p><strong>Кількість поповнень:</strong> {{ banka.deposit_count }}</p>
+                    <p><strong>Дата відкриття:</strong> {{ banka.opening_date }}</p>
+                    {% if banka.closing_date %}
+                        <p><strong>Дата зачинення:</strong> {{ banka.closing_date }}</p>
+                    {% endif %}
+                    <p><strong>Хеш-код:</strong> {{ banka.hash_code }}</p>
 
-                <!-- Кнопка для закрытия банка -->
-                <form method="post" action="{% url 'cards:close_banka' pk=banka.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="close-banka-btn">Закрити банку</button>
-                </form>
-            </div>
-            {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                        <p class="message">{{ message }}</p>
-                    {% endfor %}
+                    <!-- Кнопки -->
+                    <div class="banka-buttons">
+                        <!-- Кнопка для закрытия банки -->
+                        <form method="post" action="{% url 'cards:close_banka' pk=banka.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="banka-btn close-banka-btn" onclick="showConfirmation(event)">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" alt="Закрити">
+                                Закрити банку
+                            </button>
+                        </form>
+
+                        <!-- Кнопка для редактирования -->
+                        <a href="{% url 'cards:edit_banka' pk=banka.id %}" class="banka-btn edit-banka-btn">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png" alt="Редагувати">
+                            Редагувати банку
+                        </a>
+
+                        <!-- Кнопка для снятия денег -->
+                        <button class="banka-btn withdraw-banka-btn" id="withdraw-banka-btn">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2856/2856683.png" alt="Зняти гроші"> 
+                            Зняти гроші
+                        </button>                                          
+                    </div>
                 </div>
+            {% else %}
+                <p class="no-banka-message">У вас немає накопичувальної банки. Ви можете відкрити нову на сторінці <a href="{% url 'cards:open_banka' pk=request.resolver_match.kwargs.pk %}">відкрити банку</a>.</p>
             {% endif %}
-        {% else %}
-            <p class="no-banka-message">У вас немає накопичувальної банки. Ви можете відкрити нову на сторінці <a href="{% url 'cards:open_banka' pk=request.resolver_match.kwargs.pk %}">відкрити банку</a>.</p>
+        </div>
+
+        <!-- Блок с визуальной банкой -->
+        {% if banka %}
+        <div class="banka-visual-block">
+            <p class="goal-text">{{ banka.goal }} грн</p>
+
+            <div class="banka-glass">
+                <div class="banka-liquid" style="height: {% widthratio banka.balance banka.goal 100 %}%;"></div>
+            </div>
+
+            <p class="balance-text" id="balance-text-visual">{{ banka.balance }} грн</p>
+        </div>
         {% endif %}
+
     </div>
 
-    <div class="footer-text">
-        *Банка є зберігальним рахунком і не використовується для основних операцій
-    </div>
+    {% if banka %}
+        <script>
+            // Функция для отображения подтверждения перед закрытием банки
+            function showConfirmation(event) {
+                event.preventDefault(); // Отменяем стандартное поведение (переход по ссылке)
+                
+                // Показываем окно подтверждения
+                if (confirm("Ви дійсно хочете закрити банку? Це не можна скасувати!")) {
+                    // Если пользователь подтвердит, отправляем форму
+                    event.target.closest('form').submit();
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const withdrawButton = document.getElementById("withdraw-banka-btn");
+                
+                if (withdrawButton) {
+                    withdrawButton.addEventListener("click", function () {
+                        // Подтверждение перед снятием денег
+                        if (confirm("Ви дійсно хочете зняти всі гроші з накопичувальної банки?")) {
+                            fetch("{% url 'cards:withdraw_banka' pk=banka.id %}", {
+                                method: "POST",
+                                headers: {
+                                    "X-CSRFToken": "{{ csrf_token }}",
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({})  // Тело запроса (можно оставить пустым)
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert("Гроші успішно переведено на вашу основну картку!");
+
+                                    // Обновляем баланс на странице
+                                    document.getElementById("balance-text").innerText = "0.00 грн";
+                                    document.getElementById("balance-text-visual").innerText = "0.00 грн";
+                                    // Скрываем кнопку снятия денег
+                                    withdrawButton.style.display = "none";
+                                } else {
+                                    alert("Щось пішло не так. Спробуйте пізніше.");
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    // Если банка нет, скрываем кнопку "Зняти гроші"
+                    console.log("У вас нет накопичувальної банки.");
+                }
+            });
+        </script>
+    {% else %}
+        <script>
+            // Если банка нет, скрипт не выполняется
+            document.addEventListener("DOMContentLoaded", function () {
+                const withdrawButton = document.getElementById("withdraw-banka-btn");
+                withdrawButton.style.display = "none";  // Скрываем кнопку "Зняти гроші"
+            });
+        </script>
+    {% endif %}
+
 {% else %}
-    <div style="display: flex; align-items: center; justify-content: center; height: 100vh; text-align: left;">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" alt="Хрест" style="width: 50px; height: 50px; margin-right: 15px;">
-        <h1 style="font-size: 30px; max-width: 500px; line-height: 1.4;">
-            Ой лихо, схоже вам спочатку потрібно авторизуватися... 🫣
-        </h1>
+    <div class="auth-message">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" alt="Хрест" class="error-icon">
+        <h1>Ой лихо, схоже вам спочатку потрібно авторизуватися... 🫣</h1>
     </div>
 {% endif %}
-
 {% endblock %}

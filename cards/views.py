@@ -13,6 +13,7 @@ from .forms import BankaForm, BankTransferForm, BankAccountForm
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.db.models import Sum
 from django.core.exceptions import ValidationError
+import uuid
 
 def cards(request):
     if not request.user.is_authenticated:
@@ -418,8 +419,15 @@ def open_banka(request, pk):
         if form.is_valid():
             banka = form.save(commit=False)
             banka.user = request.user
+
+            # Генерация уникального hash_code
+            while True:
+                banka.hash_code = uuid.uuid4().hex[:12]
+                # Проверяем, существует ли уже банк с таким hash_code
+                if not Banka.objects.filter(hash_code=banka.hash_code).exists():
+                    break  # Если уникален, выходим из цикла
             banka.save()
-        return redirect('cards:cards')
+        return render(request, 'cards/banka_my.html', {'form': form, 'banka': banka})
     else:
         form = BankaForm()
 
@@ -600,3 +608,43 @@ def open_account(request):
         form = BankAccountForm()
     
     return render(request, 'cards/cards_open.html', {'form': form})
+
+@login_required
+def withdraw_banka(request, pk):
+    banka = Banka.objects.get(pk=pk, user=request.user)
+    card = BankCard.objects.get(user=request.user)
+
+    if banka.balance > 0:
+        # Добавляем деньги на баланс карты
+        card.balance += banka.balance
+        card.save()
+
+        # Очищаем баланс накопительной банки
+        banka.balance = 0
+        banka.save()
+
+        return redirect('cards:banka_my')  # Перенаправляем на страницу с информацией о банке
+    else:
+        return JsonResponse({'success': False, 'message': 'Немає грошей для зняття.'})
+    
+@login_required
+def edit_banka(request, pk):
+    try:
+        banka = request.user.banka  # Получаем текущую банку пользователя
+    except Banka.DoesNotExist:
+        banka = None
+
+    if request.method == 'POST':
+        form = BankaForm(request.POST, instance=banka)
+        if form.is_valid():
+            banka = form.save()  # Сохраняем банк
+            messages.success(request, 'Банка була успішно відредагована!')
+            return render(request, 'cards/banka_my.html', {'form': form, 'banka': banka})
+        else:
+            # Если форма не прошла валидацию, передаем сообщение об ошибке
+            messages.error(request, 'Ціль накопичування не може перевищувати 100000 грн.')
+
+    else:
+        form = BankaForm(instance=banka)
+
+    return render(request, 'cards/banka_edit.html', {'form': form, 'banka': banka})

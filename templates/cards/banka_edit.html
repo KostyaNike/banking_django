@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Редагування накопичувальної банки{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cards/css/banka_open.css' %}">
+
+{% if user.is_authenticated %}
+    <a href="javascript:history.back()" class="back-button">← Назад</a>
+
+    <div class="container">
+        <h1>Редагувати банку</h1>
+
+        {% if banka %}
+            <form method="post" id="editBankaForm">
+                {% csrf_token %}
+                <p><strong>Назва банки:</strong></p>
+                {{ form.name }}
+                <p><strong>Опис:</strong></p>
+                {{ form.description }}
+                <p><strong>Ціль накопичування (грн):</strong></p>
+                {{ form.goal }}
+                {% if error_message %}
+                    <p class="error">{{ error_message }}</p>  <!-- Выводим ошибку -->
+                {% endif %}
+                <button type="submit">Зберегти зміни</button>
+            </form>
+        {% else %}
+            <p class="no-banka-message">У вас немає накопичувальної банки. Ви можете створити нову на сторінці <a href="{% url 'cards:open_banka' %}">відкрити банку</a>.</p>
+        {% endif %}
+    </div>
+
+{% else %}
+    <div class="auth-message">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" alt="Хрест" class="error-icon">
+        <h1>Ой лихо, схоже вам спочатку потрібно авторизуватися... 🫣</h1>
+    </div>
+{% endif %}
+
+<script>
+    // Проверка значений формы перед отправкой
+    document.getElementById('editBankaForm').addEventListener('submit', function(event) {
+        var goalValue = parseFloat(document.querySelector('[name="goal"]').value);
+        
+        // Если цель накопления больше 100000, отменяем отправку и показываем предупреждение
+        if (goalValue > 100000) {
+            event.preventDefault();
+            alert('Ціль накопичування не може перевищувати 100000 грн.');
+        }
+    });
+</script>
+
+{% endblock %}

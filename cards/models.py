@@ -1,6 +1,11 @@
 from django.db import models
 from django.conf import settings
 import uuid
+from django.core.exceptions import ValidationError
+
+def validate_goal(value):
+    if value > 100000:
+        raise ValidationError('Ціль накопичування не може перевищувати 100000 грн.')
 
 class Banka(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='banka')
@@ -11,13 +16,15 @@ class Banka(models.Model):
     description = models.TextField()
     name = models.CharField(max_length=255)
     hash_code = models.CharField(max_length=12, unique=True, default=uuid.uuid4().hex[:12])
-    goal = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    goal = models.DecimalField(
+        max_digits=10, 
+        decimal_places=2, 
+        default=0.00,
+        validators=[validate_goal]  # Добавляем валидатор для поля goal
+    )
 
     def __str__(self):
         return f'{self.name} ({self.user.email})'
-    
-from django.db import models
-from django.conf import settings
 
 class UserCashback(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="cashback")  # Связь с пользователем

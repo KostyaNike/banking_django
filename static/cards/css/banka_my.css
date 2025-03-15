@@ -1,116 +1,137 @@
-/* Стили для контейнера */
+/* Основной контейнер */
 .container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 60vh;
-    background-color: #f1f9fc;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 650px;
-    margin: 50px auto 20px 460px;
-    padding-left: 40px;
-    position: relative;
-    left: 100px;
+    gap: 40px;
+    justify-content: center;
+    align-items: flex-start; /* Выравнивание по верхнему краю */
+    width: 70%;
+    margin: 40px auto;
+    position: relative; /* Устанавливаем позиционирование */
+    transform: translate(13%, 20px);
+    padding-top: 40px;
 }
 
-/* Эффект при наведении на контейнер */
-.container:hover {
+/* Блок с информацией о банке */
+.banka-info-block {
+    background-color: white;
+    border-radius: 12px;
+    padding: 30px 35px; /* Увеличиваем отступы внутри блока */
+    width: 55%; /* Увеличиваем ширину блока */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    font-size: 16px; /* Увеличиваем размер шрифта */
+    color: #333;
+    position: relative; /* Оставляем позиционирование для блока с информацией */
+    transition: 0.3s ease-in-out;
+    height: 440px; /* Устанавливаем высоту в зависимости от контента */
+}
+
+.banka-info-block:hover {
     transform: scale(1.02);
 }
 
-/* Стили для заголовка */
+/* Заголовок */
 h1 {
-    font-size: 26px;
-    color: #34495e;
+    font-size: 22px; /* Увеличиваем размер заголовка */
+    font-weight: bold;
     margin-bottom: 20px;
+    color: #34495e;
     text-align: center;
-    font-family: 'Arial', sans-serif;
-    font-weight: 600;
-    transition: color 0.3s ease;
 }
 
-/* Изменение цвета при наведении на заголовок */
-h1:hover {
-    color: #2980b9;
-}
-
-/* Стили для параграфов */
-p {
-    font-size: 21px;
-    color: #555;
-    line-height: 1.4;
-    margin-bottom: 12px;
-    width: 100%;
-    max-width: 600px;
-    transition: color 0.3s ease;
-}
-
-/* Стили для выделения информации */
-strong {
-    color: #2c3e50;
-    font-weight: 600;
-}
-
-/* Стили для блока с данными банка */
-.banka-info {
+/* Визуальный блок банки */
+.banka-visual-block {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width: 100%;
-    margin-bottom: 20px;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Целевая сумма */
+.goal-text {
+    font-size: 16px; /* Увеличиваем размер шрифта */
+    font-weight: bold;
+    color: #777;
+}
+
+/* Банка */
+.banka-glass {
+    width: 70px;
+    height: 360px;
+    border: 3px solid #2c3e50;
+    border-radius: 40px;
+    background: linear-gradient(180deg, #ffffff 10%, #6fcea3 60%, #ffffff 100%);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
     position: relative;
+    overflow: hidden;
 }
 
-/* Стили для кнопки закрытия банки */
-.close-banka-btn {
-    background-color: #e74c3c;  /* Красный цвет */
-    color: white;
+/* Жидкость */
+.banka-liquid {
+    background-color: #4CAF50;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    border-radius: 0 0 40px 40px;
+    box-shadow: inset 0 8px 10px rgba(0, 0, 0, 0.1);
+    transition: height 0.4s ease-in-out;
+}
+
+/* Накопленная сумма */
+.balance-text {
+    font-size: 16px; /* Увеличиваем размер шрифта */
+    color: #555;
+}
+
+/* Блок с кнопками */
+.banka-buttons {
+    display: flex;
+    gap: 25px; /* Увеличиваем расстояние между кнопками */
+    position: absolute;
+    bottom: -13px; /* Кнопки будут внизу блока */
+    left: -180px; /* Кнопки будут у левого края блока */
+    width: 100%; /* Для того, чтобы кнопки располагались по ширине блока */
+    justify-content: space-between; /* Выравнивание кнопок по всей ширине блока */
+    padding-top: 10px; /* Отступ сверху от текста */
+}
+
+/* Общий стиль для всех кнопок */
+.banka-btn {
+    background-color: transparent;
+    color: #333;
     border: none;
-    padding: 10px 20px;
-    font-size: 16px;
+    font-size: 16px; /* Увеличиваем размер шрифта */
+    display: flex;
+    align-items: center;
+    gap: 8px;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    white-space: nowrap; /* Предотвращает перенос текста */
+    transition: 0.2s ease;
 }
 
-.close-banka-btn:hover {
-    background-color: #c0392b;  /* Темнее красный при наведении */
+.banka-btn:hover {
+    color: #000;
     transform: scale(1.05);
 }
 
-.close-banka-btn:focus {
-    outline: none;
+/* Иконки для кнопок */
+.banka-btn img {
+    width: 14px;
+    height: 14px;
 }
 
-.messages {
-    background-color: #f1f9fc;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px;
-    margin-top: 20px;  /* Расстояние от блока с данными */
-}
-
-/* Стили для сообщения */
-.message {
-    font-size: 21px;
-    color: #34495e;
-    text-align: center;
-    font-weight: 600;
-}
-
-.message.success {
-    color: #27ae60;
-}
-
-.message.error {
+/* Кнопка "Закрити банку" */
+.close-banka-btn {
     color: #e74c3c;
+}
+
+/* Кнопка "Редагувати банку" */
+.edit-banka-btn {
+    color: #3498db;
+}
+
+/* Кнопка "Зняти гроші" */
+.withdraw-banka-btn {
+    color: #f39c12;
 }
 
 .back-button {
@@ -125,18 +146,9 @@ strong {
     border: none;
     cursor: pointer;
     transition: color 0.3s ease;
+    z-index: 10;
 }
 
 .back-button:hover {
     color: #007bff; /* Цвет при наведении */
-}
-
-.footer-text {
-    position: fixed;
-    bottom: 20px; /* Сдвигаем текст немного вверх от нижнего края */
-    left: 59%; /* Центрируем текст по горизонтали */
-    transform: translateX(-50%); /* Дополнительное центрирование по горизонтали */
-    color: #535353; /* Темно-серый цвет текста */
-    font-size: 14px;
-    text-align: center;
 }

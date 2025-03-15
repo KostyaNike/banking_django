@@ -144,3 +144,15 @@ p.warning {
     font-size: 14px;
     text-align: center;
 }
+
+.error {
+    font-size: 18px;
+    color: #333333;  /* Темно-серый цвет */
+    font-weight: bold;  /* Жирный текст */
+    text-align: center;
+    margin-top: 15px;
+    padding: 10px;
+    border: 2px solid #333333;  /* Темно-серая рамка */
+    border-radius: 8px;  /* Округленные углы */
+    background-color: #f9f9f9;  /* Легкий фон */
+}
